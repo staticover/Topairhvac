@@ -13,9 +13,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ============================================================
-   CSS VARIABLES — CHANGE COLORS HERE
-   ============================================================ */
 :root {
   --primary:        #1565C0;
   --primary-light:  #1976D2;
@@ -75,9 +72,6 @@
   --shadow-lg:      0 8px 32px rgba(0,0,0,0.50);
 }
 
-/* ============================================================
-   RESET & BASE
-   ============================================================ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
 body {
@@ -96,12 +90,8 @@ a { text-decoration: none; color: inherit; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
-/* ============================================================
-   LAYOUT
-   ============================================================ */
 #app { display: flex; height: 100vh; height: 100dvh; overflow: hidden; }
 
-/* SIDEBAR */
 .sidebar {
   width: var(--sidebar-w);
   background: var(--surface);
@@ -117,16 +107,6 @@ a { text-decoration: none; color: inherit; }
   border-bottom: 1px solid var(--border);
   flex-shrink: 0;
   text-align: center;
-}
-.sidebar-logo-img {
-  width: 100%;
-  max-width: 140px;
-  height: 52px;
-  object-fit: contain;
-  margin-bottom: 8px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
 }
 .sidebar-logo-placeholder {
   width: 100%;
@@ -147,106 +127,61 @@ a { text-decoration: none; color: inherit; }
   overflow: hidden;
   position: relative;
 }
-.sidebar-logo-placeholder img {
-  width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0;
-}
-.sidebar-logo .biz-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--primary);
-  letter-spacing: -0.3px;
-  line-height: 1.2;
-}
-.sidebar-logo .biz-tagline {
-  font-size: 11px;
-  color: var(--text-3);
-  margin-top: 3px;
-  font-weight: 400;
-  letter-spacing: 0.2px;
-}
-.sidebar-nav {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px 8px;
-}
+.sidebar-logo-placeholder img { width: 100%; height: 100%; object-fit: contain; position: absolute; inset: 0; }
+.sidebar-logo .biz-name { font-size: 15px; font-weight: 700; color: var(--primary); letter-spacing: -0.3px; line-height: 1.2; }
+.sidebar-logo .biz-tagline { font-size: 11px; color: var(--text-3); margin-top: 3px; font-weight: 400; letter-spacing: 0.2px; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: 10px 8px; }
 .nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px 12px;
-  border-radius: var(--radius-sm);
-  color: var(--text-2);
-  font-size: 13.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition);
-  margin-bottom: 2px;
-  user-select: none;
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  color: var(--text-2); font-size: 13.5px; font-weight: 500;
+  cursor: pointer; transition: all var(--transition); margin-bottom: 2px; user-select: none;
 }
 .nav-item:hover { background: var(--surface-2); color: var(--text); }
 .nav-item.active { background: var(--accent); color: var(--accent-text); font-weight: 600; }
 .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.sidebar-bottom {
-  padding: 10px 8px 14px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
+.sidebar-bottom { padding: 10px 8px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
 
-/* MAIN */
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
-/* TOP BAR (mobile) */
 .topbar {
-  display: none;
-  height: var(--topbar-h);
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  align-items: center;
-  padding: 0 16px;
-  gap: 12px;
-  flex-shrink: 0;
-  z-index: 10;
+  display: none; height: var(--topbar-h);
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  align-items: center; padding: 0 16px; gap: 12px; flex-shrink: 0; z-index: 10;
 }
 .topbar .biz-name { font-size: 16px; font-weight: 700; color: var(--primary); flex: 1; }
 .topbar-actions { display: flex; gap: 8px; align-items: center; }
 
-/* CONTENT */
+/* CRITICAL FIX: content area must allow scrolling */
 .content {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: auto;   /* ← was missing / overridden */
+  overflow-x: hidden;
   padding: 24px;
   display: none;
+  height: 100%;
 }
 .content.active { display: block; }
 
-/* BOTTOM NAV (mobile) */
-.bottomnav {
-  display: none;
-  height: var(--bottombar-h);
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  flex-shrink: 0;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-.bottomnav-inner {
-  display: flex;
-  height: 100%;
-}
-.bottom-item {
+/* Content area wrapper needs to be scrollable too */
+#contentArea {
   flex: 1;
+  overflow: hidden;
+  position: relative;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  color: var(--text-3);
-  font-size: 10px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color var(--transition);
-  user-select: none;
+}
+
+.bottomnav {
+  display: none; height: var(--bottombar-h);
+  background: var(--surface); border-top: 1px solid var(--border);
+  flex-shrink: 0; padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.bottomnav-inner { display: flex; height: 100%; }
+.bottom-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; color: var(--text-3); font-size: 10px; font-weight: 500;
+  cursor: pointer; transition: color var(--transition); user-select: none;
 }
 .bottom-item.active { color: var(--primary); }
 .bottom-item svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
@@ -258,38 +193,11 @@ a { text-decoration: none; color: inherit; }
   .content { padding: 16px; padding-bottom: calc(var(--bottombar-h) + 16px); }
 }
 
-/* ============================================================
-   COMPONENTS
-   ============================================================ */
-.page-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-.page-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: -0.4px;
-  color: var(--text);
-}
+.page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; gap: 12px; flex-wrap: wrap; }
+.page-title { font-size: 22px; font-weight: 700; letter-spacing: -0.4px; color: var(--text); }
 .page-subtitle { font-size: 13px; color: var(--text-3); margin-top: 2px; }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all var(--transition);
-  white-space: nowrap;
-}
+.btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; border-radius: var(--radius-sm); font-size: 13.5px; font-weight: 600; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
 .btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .btn-primary { background: var(--primary); color: #fff; }
 .btn-primary:hover { background: var(--primary-dark); }
@@ -302,257 +210,88 @@ a { text-decoration: none; color: inherit; }
 .btn-sm { padding: 5px 11px; font-size: 12px; }
 .btn-icon { padding: 7px; border-radius: var(--radius-sm); }
 
-/* Cards */
-.card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 18px;
-  transition: background var(--transition), border-color var(--transition);
-}
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; transition: background var(--transition), border-color var(--transition); }
 .card-sm { padding: 14px; }
 
-/* Stat cards */
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.stat-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px;
-}
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
 .stat-label { font-size: 11.5px; color: var(--text-3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
 .stat-value { font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); font-family: var(--font-mono); }
 .stat-value.green { color: var(--success); }
-.stat-value.blue { color: var(--success); }
 .stat-value.red { color: var(--danger); }
 .stat-sub { font-size: 11.5px; color: var(--text-3); margin-top: 4px; }
 
-/* Forms */
 .form-group { margin-bottom: 14px; }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-@media (max-width: 480px) {
-  .form-row, .form-row-3 { grid-template-columns: 1fr; }
-}
+@media (max-width: 480px) { .form-row, .form-row-3 { grid-template-columns: 1fr; } }
 label { display: block; font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 5px; letter-spacing: 0.2px; }
 input[type="text"], input[type="number"], input[type="tel"], input[type="date"], input[type="password"], input[type="url"], select, textarea {
-  width: 100%;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 9px 12px;
-  font-size: 13.5px;
-  color: var(--text);
-  outline: none;
-  transition: border-color var(--transition), background var(--transition);
-  -webkit-appearance: none;
+  width: 100%; background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13.5px; color: var(--text);
+  outline: none; transition: border-color var(--transition), background var(--transition); -webkit-appearance: none;
 }
-input:focus, select:focus, textarea:focus {
-  border-color: var(--primary);
-  background: var(--surface);
-}
+input:focus, select:focus, textarea:focus { border-color: var(--primary); background: var(--surface); }
 textarea { resize: vertical; min-height: 72px; }
 select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237A92AB' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; }
 
-/* Modal */
-.modal-backdrop {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.5);
-  z-index: 1000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  backdrop-filter: blur(3px);
-}
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 16px; backdrop-filter: blur(3px); }
 .modal-backdrop.open { display: flex; }
-.modal {
-  background: var(--surface);
-  border-radius: 14px;
-  width: 100%;
-  max-width: 520px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: var(--shadow-lg);
-  animation: modalIn 0.2s ease;
-}
+.modal { background: var(--surface); border-radius: 14px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease; }
 @keyframes modalIn { from { opacity:0; transform: scale(0.96) translateY(8px); } to { opacity:1; transform: none; } }
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 20px 14px;
-  border-bottom: 1px solid var(--border);
-}
+.modal-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px 14px; border-bottom: 1px solid var(--border); }
 .modal-title { font-size: 16px; font-weight: 700; }
 .modal-close { color: var(--text-3); padding: 4px; border-radius: 4px; }
 .modal-close:hover { color: var(--text); background: var(--surface-2); }
 .modal-body { padding: 18px 20px; }
 .modal-footer { display: flex; justify-content: flex-end; gap: 8px; padding: 12px 20px 18px; border-top: 1px solid var(--border); }
 
-/* Table */
 .table-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th { background: var(--surface-2); padding: 10px 14px; text-align: left; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-3); border-bottom: 1px solid var(--border); white-space: nowrap; }
 td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text-2); vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
 tbody tr:hover { background: var(--surface-2); }
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 9px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  white-space: nowrap;
-}
+.badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
 .badge-green { background: var(--success-bg); color: var(--success); }
 .badge-red { background: var(--danger-bg); color: var(--danger); }
 .badge-blue { background: var(--info-bg); color: var(--info); }
 .badge-gray { background: var(--surface-2); color: var(--text-3); }
 
-/* Toggle switch */
 .toggle { position: relative; display: inline-block; width: 40px; height: 22px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
-.toggle-slider {
-  position: absolute; inset: 0;
-  background: var(--surface-3);
-  border-radius: 22px;
-  cursor: pointer;
-  transition: background var(--transition);
-}
-.toggle-slider::before {
-  content: '';
-  position: absolute;
-  width: 16px; height: 16px;
-  left: 3px; top: 3px;
-  background: #fff;
-  border-radius: 50%;
-  transition: transform var(--transition);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
+.toggle-slider { position: absolute; inset: 0; background: var(--surface-3); border-radius: 22px; cursor: pointer; transition: background var(--transition); }
+.toggle-slider::before { content: ''; position: absolute; width: 16px; height: 16px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform var(--transition); box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
 input:checked + .toggle-slider { background: var(--primary); }
 input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-/* Search bar */
-.search-bar {
-  position: relative;
-  flex: 1;
-  min-width: 140px;
-  max-width: 280px;
-}
+.search-bar { position: relative; flex: 1; min-width: 140px; max-width: 280px; }
 .search-bar input { padding-left: 34px; }
-.search-bar svg {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 15px; height: 15px;
-  stroke: var(--text-3);
-  fill: none;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
+.search-bar svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; stroke: var(--text-3); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
 
-/* Filter row */
 .filter-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
-
-/* Section titles */
 .section-title { font-size: 13px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 10px; }
 
-/* Month card */
-.month-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+.month-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .month-name { font-size: 14px; font-weight: 700; color: var(--text); }
 .month-stats { display: flex; gap: 20px; }
 .month-stat { text-align: right; }
 .month-stat-label { font-size: 10.5px; color: var(--text-3); font-weight: 500; }
 .month-stat-value { font-size: 14px; font-weight: 700; font-family: var(--font-mono); color: var(--text); }
 
-/* Divider */
 .divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
-
-/* Empty state */
 .empty-state { text-align: center; padding: 48px 24px; color: var(--text-3); }
 .empty-state svg { width: 40px; height: 40px; stroke: var(--text-3); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; margin-bottom: 12px; }
 .empty-state p { font-size: 14px; }
 
-/* Floating panel */
-.float-panel {
-  position: fixed;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  z-index: 500;
-  min-width: 380px;
-  max-width: 600px;
-  max-height: 80vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-.float-panel-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--surface-2);
-  border-bottom: 1px solid var(--border);
-  cursor: move;
-  user-select: none;
-}
-.float-panel-title { font-size: 13px; font-weight: 700; flex: 1; }
-.float-panel-body { flex: 1; overflow-y: auto; padding: 16px; }
-
-/* Toast */
 .toast-container { position: fixed; top: 20px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-.toast {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 11px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  box-shadow: var(--shadow-lg);
-  max-width: 280px;
-  animation: toastIn 0.2s ease;
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.toast { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 11px 16px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); max-width: 280px; animation: toastIn 0.2s ease; pointer-events: auto; display: flex; align-items: center; gap: 8px; }
 .toast.success { border-left: 3px solid var(--success); }
 .toast.error { border-left: 3px solid var(--danger); }
 .toast.info { border-left: 3px solid var(--primary); }
 @keyframes toastIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: none; } }
 
-/* PDF preview area */
-.pdf-preview {
-  background: #fff;
-  color: #111;
-  padding: 40px;
-  font-family: var(--font);
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-}
+.pdf-preview { background: #fff; color: #111; padding: 40px; font-family: var(--font); max-width: 600px; margin: 0 auto; border-radius: var(--radius); border: 1px solid var(--border); }
 .pdf-preview h1 { font-size: 26px; font-weight: 800; color: #1565C0; }
 .pdf-preview .pdf-tagline { color: #555; font-size: 13px; margin-top: 2px; }
 .pdf-preview .pdf-meta { display: flex; justify-content: space-between; margin-top: 24px; margin-bottom: 24px; }
@@ -566,72 +305,58 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
 .pdf-preview .pdf-status-unpaid { background: #FDEDEC; color: #C0392B; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 8px; }
 .pdf-preview .pdf-footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #888; text-align: center; }
 
-/* Pricing calculator */
 .calc-output { background: var(--accent); border: 1px solid var(--primary); border-radius: var(--radius); padding: 16px; margin-top: 14px; text-align: center; }
 .calc-output .calc-label { font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 4px; }
 .calc-output .calc-amount { font-size: 32px; font-weight: 800; color: var(--primary); font-family: var(--font-mono); letter-spacing: -1px; }
 
-/* Timer */
-.timer-display {
-  font-size: 48px;
-  font-weight: 800;
-  font-family: var(--font-mono);
-  color: var(--text);
-  letter-spacing: -2px;
-  text-align: center;
-  padding: 20px 0;
-}
-.timer-controls { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-
-/* Photos dots */
 .photo-dots { display: flex; gap: 4px; }
 .photo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--surface-3); }
 .photo-dot.filled { background: var(--primary); }
 .photo-dot.filled-green { background: var(--success); }
 
-/* Settings row */
-.setting-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  gap: 16px;
-}
+.setting-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); gap: 16px; }
 .setting-row:last-child { border-bottom: none; }
 .setting-label { font-size: 13.5px; font-weight: 500; color: var(--text); }
 .setting-desc { font-size: 11.5px; color: var(--text-3); margin-top: 2px; }
 
-/* Mileage profit row */
 .profit-row { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 4px; }
 .profit-item { font-size: 12px; font-weight: 600; }
 .profit-item.blue { color: var(--primary); }
 
-/* Investment priority */
 .priority-high { color: var(--danger); }
 .priority-med { color: var(--warning); }
 .priority-low { color: var(--success); }
 
-/* Responsive table on mobile */
-@media (max-width: 600px) {
-  .hide-mobile { display: none !important; }
-  td, th { padding: 8px 10px; }
+/* Sheets info box */
+.sheets-info {
+  background: var(--info-bg);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text-2);
+  line-height: 1.6;
+}
+.sheets-info strong { color: var(--primary); }
+.sheets-info code {
+  background: var(--surface-3);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
 }
 
-/* Animation utilities */
+@media (max-width: 600px) { .hide-mobile { display: none !important; } td, th { padding: 8px 10px; } }
 .fade-in { animation: fadeIn 0.2s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 </style>
 </head>
 <body>
 
-<!-- TOAST CONTAINER -->
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- APP -->
 <div id="app">
-
-  <!-- SIDEBAR (desktop) -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <div class="sidebar-logo-placeholder" id="logoPlaceholder" onclick="triggerLogoUpload()" title="Click to upload logo">
@@ -645,9 +370,7 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
     <div class="sidebar-bottom" id="sidebarBottom"></div>
   </aside>
 
-  <!-- MAIN -->
   <div class="main">
-    <!-- TOP BAR (mobile) -->
     <header class="topbar" id="topbar">
       <div style="display:flex;align-items:center;gap:8px;flex:1;min-width:0;">
         <div id="topbarLogoWrap" style="height:32px;display:flex;align-items:center;"></div>
@@ -661,8 +384,7 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
       </div>
     </header>
 
-    <!-- CONTENT PANELS -->
-    <div style="flex:1;overflow:hidden;position:relative;" id="contentArea">
+    <div style="flex:1;overflow:hidden;position:relative;display:flex;flex-direction:column;" id="contentArea">
       <div class="content active fade-in" id="tab-dashboard"></div>
       <div class="content fade-in" id="tab-jobs"></div>
       <div class="content fade-in" id="tab-calculator"></div>
@@ -674,16 +396,11 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
       <div class="content fade-in" id="tab-settings"></div>
     </div>
 
-    <!-- BOTTOM NAV (mobile) -->
     <nav class="bottomnav" id="bottomnav">
       <div class="bottomnav-inner" id="bottomnavInner"></div>
     </nav>
   </div>
 </div>
-
-<!-- ============================================================
-     MODALS
-     ============================================================ -->
 
 <!-- Job Modal -->
 <div class="modal-backdrop" id="jobModal">
@@ -697,66 +414,27 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
     <div class="modal-body">
       <input type="hidden" id="jobId">
       <div class="form-row">
-        <div class="form-group">
-          <label>Customer Name</label>
-          <input type="text" id="jobCustomer" placeholder="Full name">
-        </div>
-        <div class="form-group">
-          <label>Phone Number</label>
-          <input type="tel" id="jobPhone" placeholder="(555) 555-5555">
-        </div>
+        <div class="form-group"><label>Customer Name</label><input type="text" id="jobCustomer" placeholder="Full name"></div>
+        <div class="form-group"><label>Phone Number</label><input type="tel" id="jobPhone" placeholder="(555) 555-5555"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Service Type</label>
-          <input type="text" id="jobService" placeholder="e.g. AC Repair">
-        </div>
-        <div class="form-group">
-          <label>Date</label>
-          <input type="date" id="jobDate">
-        </div>
+        <div class="form-group"><label>Service Type</label><input type="text" id="jobService" placeholder="e.g. AC Repair"></div>
+        <div class="form-group"><label>Date</label><input type="date" id="jobDate"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Amount Charged ($)</label>
-          <input type="number" id="jobAmount" placeholder="0.00" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Materials Cost ($)</label>
-          <input type="number" id="jobMaterials" placeholder="0.00" step="0.01">
-        </div>
+        <div class="form-group"><label>Amount Charged ($)</label><input type="number" id="jobAmount" placeholder="0.00" step="0.01"></div>
+        <div class="form-group"><label>Materials Cost ($)</label><input type="number" id="jobMaterials" placeholder="0.00" step="0.01"></div>
       </div>
       <div class="form-row" id="jobMileageRow">
-        <div class="form-group">
-          <label>Job Type</label>
-          <select id="jobMobileType">
-            <option value="onsite">On-Site</option>
-            <option value="mobile">Mobile</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Miles (tax only)</label>
-          <input type="number" id="jobMiles" placeholder="0">
-        </div>
+        <div class="form-group"><label>Job Type</label><select id="jobMobileType"><option value="onsite">On-Site</option><option value="mobile">Mobile</option></select></div>
+        <div class="form-group"><label>Miles (tax only)</label><input type="number" id="jobMiles" placeholder="0"></div>
       </div>
       <div class="form-group" id="jobTravelFeeRow">
-        <label>
-          <input type="checkbox" id="jobTravelFee" style="margin-right:6px;">
-          Add flat travel fee
-        </label>
+        <label><input type="checkbox" id="jobTravelFee" style="margin-right:6px;">Add flat travel fee</label>
         <input type="number" id="jobTravelFeeAmt" placeholder="Travel fee amount" style="margin-top:6px;" step="0.01">
       </div>
-      <div class="form-group">
-        <label>Payment Status</label>
-        <select id="jobPayment">
-          <option value="unpaid">Unpaid</option>
-          <option value="paid">Paid</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Notes</label>
-        <textarea id="jobNotes" placeholder="Additional notes about this job..."></textarea>
-      </div>
+      <div class="form-group"><label>Payment Status</label><select id="jobPayment"><option value="unpaid">Unpaid</option><option value="paid">Paid</option></select></div>
+      <div class="form-group"><label>Notes</label><textarea id="jobNotes" placeholder="Additional notes..."></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('jobModal')">Cancel</button>
@@ -786,26 +464,26 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
 <div class="modal-backdrop" id="settingsAuthModal">
   <div class="modal" style="max-width:360px;">
     <div class="modal-header">
-      <span class="modal-title" id="settingsAuthTitle">Settings Password</span>
+      <span class="modal-title">Settings Password</span>
       <button class="modal-close btn btn-icon" onclick="closeModal('settingsAuthModal')">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label id="settingsPwLabel">Enter Password</label>
+        <label>Enter Password</label>
         <input type="password" id="settingsPassword" placeholder="Password" onkeydown="if(event.key==='Enter')checkSettingsPassword()">
       </div>
-      <p style="font-size:12px;color:var(--text-3);" id="settingsDefaultPwNote">Default password: <strong>topair123</strong></p>
+      <p style="font-size:12px;color:var(--text-3);">Default password: <strong>topair123</strong></p>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" id="settingsAuthCancelBtn" onclick="closeModal('settingsAuthModal')">Cancel</button>
-      <button class="btn btn-primary" id="settingsAuthUnlockBtn" onclick="checkSettingsPassword()">Unlock</button>
+      <button class="btn btn-secondary" onclick="closeModal('settingsAuthModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="checkSettingsPassword()">Unlock</button>
     </div>
   </div>
 </div>
 
-<!-- Inventory Item Modal -->
+<!-- Inventory Modal -->
 <div class="modal-backdrop" id="inventoryModal">
   <div class="modal">
     <div class="modal-header">
@@ -817,29 +495,14 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
     <div class="modal-body">
       <input type="hidden" id="invId">
       <div class="form-row">
-        <div class="form-group">
-          <label>Part / Material Name</label>
-          <input type="text" id="invName" placeholder="e.g. Air Filter 16x20">
-        </div>
-        <div class="form-group">
-          <label>Type / Compatible Model</label>
-          <input type="text" id="invType" placeholder="e.g. Carrier, 1-inch">
-        </div>
+        <div class="form-group"><label>Part / Material Name</label><input type="text" id="invName"></div>
+        <div class="form-group"><label>Type / Compatible Model</label><input type="text" id="invType"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Quantity</label>
-          <input type="number" id="invQty" placeholder="0" min="0">
-        </div>
-        <div class="form-group">
-          <label>Cost Per Unit ($)</label>
-          <input type="number" id="invCost" placeholder="0.00" step="0.01">
-        </div>
+        <div class="form-group"><label>Quantity</label><input type="number" id="invQty" min="0"></div>
+        <div class="form-group"><label>Cost Per Unit ($)</label><input type="number" id="invCost" step="0.01"></div>
       </div>
-      <div class="form-group">
-        <label>Low Stock Alert Threshold</label>
-        <input type="number" id="invAlert" placeholder="e.g. 3" min="0">
-      </div>
+      <div class="form-group"><label>Low Stock Alert Threshold</label><input type="number" id="invAlert" min="0"></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('inventoryModal')">Cancel</button>
@@ -860,46 +523,18 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
     <div class="modal-body">
       <input type="hidden" id="investId">
       <div class="form-row">
-        <div class="form-group">
-          <label>Item Name</label>
-          <input type="text" id="investName" placeholder="e.g. Manifold Gauge Set">
-        </div>
-        <div class="form-group">
-          <label>Category</label>
-          <input type="text" id="investCategory" placeholder="e.g. Tools, Equipment">
-        </div>
+        <div class="form-group"><label>Item Name</label><input type="text" id="investName"></div>
+        <div class="form-group"><label>Category</label><input type="text" id="investCategory"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Estimated Cost ($)</label>
-          <input type="number" id="investCost" placeholder="0.00" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Priority</label>
-          <select id="investPriority">
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Estimated Cost ($)</label><input type="number" id="investCost" step="0.01"></div>
+        <div class="form-group"><label>Priority</label><select id="investPriority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Status</label>
-          <select id="investStatus">
-            <option value="wanted">Wanted</option>
-            <option value="purchased">Purchased</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Source / Where to Buy</label>
-          <input type="text" id="investSource" placeholder="e.g. Amazon, local supplier">
-        </div>
+        <div class="form-group"><label>Status</label><select id="investStatus"><option value="wanted">Wanted</option><option value="purchased">Purchased</option></select></div>
+        <div class="form-group"><label>Source / Where to Buy</label><input type="text" id="investSource"></div>
       </div>
-      <div class="form-group">
-        <label>Notes</label>
-        <textarea id="investNotes" placeholder="Optional notes..."></textarea>
-      </div>
+      <div class="form-group"><label>Notes</label><textarea id="investNotes"></textarea></div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('investmentModal')">Cancel</button>
@@ -920,51 +555,17 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
     <div class="modal-body">
       <input type="hidden" id="svcId">
       <div class="form-row">
-        <div class="form-group">
-          <label>Service Name</label>
-          <input type="text" id="svcName" placeholder="e.g. AC Tune-Up">
-        </div>
-        <div class="form-group">
-          <label>Device / Job Type</label>
-          <input type="text" id="svcDevice" placeholder="e.g. Central AC, Mini-Split">
-        </div>
+        <div class="form-group"><label>Service Name</label><input type="text" id="svcName"></div>
+        <div class="form-group"><label>Device / Job Type</label><input type="text" id="svcDevice"></div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Price ($)</label>
-          <input type="number" id="svcPrice" placeholder="0.00" step="0.01">
-        </div>
-        <div class="form-group">
-          <label>Materials Cost ($)</label>
-          <input type="number" id="svcMaterials" placeholder="0.00" step="0.01">
-        </div>
+        <div class="form-group"><label>Price ($)</label><input type="number" id="svcPrice" step="0.01"></div>
+        <div class="form-group"><label>Materials Cost ($)</label><input type="number" id="svcMaterials" step="0.01"></div>
       </div>
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('serviceItemModal')">Cancel</button>
       <button class="btn btn-primary" onclick="saveServiceItem()">Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- Timer Job Select Modal -->
-<div class="modal-backdrop" id="timerJobModal">
-  <div class="modal" style="max-width:380px;">
-    <div class="modal-header">
-      <span class="modal-title">Attach Timer to Job</span>
-      <button class="modal-close btn btn-icon" onclick="closeModal('timerJobModal')">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>Select Job</label>
-        <select id="timerJobSelect"></select>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('timerJobModal')">Skip</button>
-      <button class="btn btn-primary" onclick="attachTimerToJob()">Attach</button>
     </div>
   </div>
 </div>
@@ -979,7 +580,7 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
       </button>
     </div>
     <div class="modal-body">
-      <p style="font-size:13.5px;color:var(--text-2);margin-bottom:14px;">An after photo is required to mark this job complete. Please take or upload a photo.</p>
+      <p style="font-size:13.5px;color:var(--text-2);margin-bottom:14px;">An after photo is required to mark this job complete.</p>
       <input type="hidden" id="photoJobId">
       <div class="form-group">
         <label>After Photo</label>
@@ -998,7 +599,7 @@ input:checked + .toggle-slider::before { transform: translateX(18px); }
 
 <script>
 // ============================================================
-// CONFIGURATION & FEATURE FLAGS
+// CONFIG
 // ============================================================
 const MODULES = {
   PHOTOS: true,
@@ -1011,7 +612,7 @@ const MODULES = {
 };
 
 // ============================================================
-// APP STATE
+// STATE
 // ============================================================
 let settings = loadSettings();
 let jobs = loadData('jobs') || [];
@@ -1020,61 +621,38 @@ let investments = loadData('investments') || [];
 let serviceList = loadData('serviceList') || [];
 let currentTab = 'dashboard';
 let settingsUnlocked = false;
-let timerState = { running: false, paused: false, start: null, elapsed: 0, interval: null, jobId: null };
-let timerDisplay = { h: 0, m: 0, s: 0 };
 let editingJobId = null;
 let afterPhotoData = null;
-let floatPanels = {};
 
 // ============================================================
-// SETTINGS HELPERS
+// SETTINGS
 // ============================================================
 function loadSettings() {
   const d = localStorage.getItem('topair_settings');
   if (d) return JSON.parse(d);
   return {
-    bizName: 'Top Air HVAC',
-    tagline: 'Heating & Cooling Experts',
-    phone: '(555) 555-5555',
-    primaryColor: '#1565C0',
-    password: 'topair123',
-    jobsLabel: 'Service Calls',
-    irsRate: 0.67,
-    travelFeeDefault: 0,
-    minProfitStandard: 80,
-    minProfitBudget: 40,
-    sheetsUrl: '',
-    darkMode: false
+    bizName: 'Top Air HVAC', tagline: 'Heating & Cooling Experts',
+    phone: '(555) 555-5555', primaryColor: '#1565C0', password: 'topair123',
+    jobsLabel: 'Service Calls', irsRate: 0.67, travelFeeDefault: 0,
+    minProfitStandard: 80, minProfitBudget: 40, sheetsUrl: '', darkMode: false
   };
 }
-function saveSettings() {
-  localStorage.setItem('topair_settings', JSON.stringify(settings));
-}
+function saveSettings() { localStorage.setItem('topair_settings', JSON.stringify(settings)); }
 
-// ============================================================
-// DATA HELPERS
-// ============================================================
-function loadData(key) {
-  const d = localStorage.getItem('topair_' + key);
-  return d ? JSON.parse(d) : null;
-}
-function saveData(key, data) {
-  localStorage.setItem('topair_' + key, JSON.stringify(data));
-}
+function loadData(key) { const d = localStorage.getItem('topair_' + key); return d ? JSON.parse(d) : null; }
+function saveData(key, data) { localStorage.setItem('topair_' + key, JSON.stringify(data)); }
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
 // ============================================================
-// THEMING
+// THEME
 // ============================================================
 function applyTheme() {
   document.documentElement.setAttribute('data-theme', settings.darkMode ? 'dark' : '');
   document.documentElement.style.setProperty('--primary', settings.primaryColor);
-  // Derive light/dark of primary
-  const hex = settings.primaryColor;
-  document.documentElement.style.setProperty('--primary-dark', shadeColor(hex, -20));
-  document.documentElement.style.setProperty('--primary-light', shadeColor(hex, 15));
-  document.documentElement.style.setProperty('--accent', settings.darkMode ? '#0D2137' : hexToRgba(hex, 0.08));
-  document.documentElement.style.setProperty('--accent-text', hex);
+  document.documentElement.style.setProperty('--primary-dark', shadeColor(settings.primaryColor, -20));
+  document.documentElement.style.setProperty('--primary-light', shadeColor(settings.primaryColor, 15));
+  document.documentElement.style.setProperty('--accent', settings.darkMode ? '#0D2137' : hexToRgba(settings.primaryColor, 0.08));
+  document.documentElement.style.setProperty('--accent-text', settings.primaryColor);
   document.getElementById('bizNameSidebar').textContent = settings.bizName;
   document.getElementById('bizTaglineSidebar').textContent = settings.tagline;
   document.getElementById('bizNameTop').textContent = settings.bizName;
@@ -1091,189 +669,140 @@ function hexToRgba(hex, a) {
   const n = parseInt(hex.replace('#',''), 16);
   return `rgba(${n>>16},${(n>>8)&0xff},${n&0xff},${a})`;
 }
-function toggleTheme() {
-  settings.darkMode = !settings.darkMode;
-  saveSettings();
-  applyTheme();
-}
+function toggleTheme() { settings.darkMode = !settings.darkMode; saveSettings(); applyTheme(); }
 
 // ============================================================
-// LANGUAGE / TRANSLATIONS
+// LANGUAGE
 // ============================================================
 let currentLang = localStorage.getItem('topair_lang') || 'en';
-
 const T = {
   en: {
     dashboard: 'Dashboard', jobs: () => settings.jobsLabel, calculator: 'Calculator',
     inventory: 'Inventory', mileage: 'Mileage', investments: 'Investments',
     services: 'Services', photos: 'Photos', settings: 'Settings',
-    toggleTheme: 'Toggle Theme', newJob: 'New Job', editJob: 'Edit Job',
-    saveJob: 'Save Job', cancel: 'Cancel', delete: 'Delete', save: 'Save',
+    toggleTheme: 'Toggle Theme', newJob: 'New Job',
     totalRevenue: 'Total Revenue', totalProfit: 'Total Profit',
     thisMonthRevenue: 'This Month Revenue', thisMonthProfit: 'This Month Profit',
     unpaidBalance: 'Unpaid Balance', totalJobs: 'total jobs', jobsThisMonth: 'jobs this month',
     unpaidJobs: 'unpaid jobs', afterMaterials: 'After materials',
     milesThisYear: 'Miles This Year', taxDeduction: 'Tax Deduction',
     travelFees: 'Travel Fees', mobileJobs: 'Mobile Jobs',
-    avgJobTime: 'Avg Job Time', monthlyBreakdown: 'Monthly Breakdown',
-    lowStockAlerts: 'Low Stock Alerts', revenue: 'Revenue', profit: 'Profit',
-    customerName: 'Customer Name', phone: 'Phone Number', serviceType: 'Service Type',
-    date: 'Date', amountCharged: 'Amount Charged ($)', materialsCost: 'Materials Cost ($)',
-    jobType: 'Job Type', miles: 'Miles (tax only)', addTravelFee: 'Add flat travel fee',
-    paymentStatus: 'Payment Status', notes: 'Notes', paid: 'Paid', unpaid: 'Unpaid',
-    onSite: 'On-Site', mobile: 'Mobile', searchJobs: 'Search jobs...', all: 'All',
-    noJobsFound: 'No jobs found', addPart: 'Add Part', editPart: 'Edit Part',
-    partName: 'Part / Material Name', typeModel: 'Type / Compatible Model',
-    quantity: 'Quantity', costPerUnit: 'Cost Per Unit ($)', lowStockAlert: 'Low Stock Alert Threshold',
-    addInvestment: 'Add Investment', editInvestment: 'Edit Investment',
-    itemName: 'Item Name', category: 'Category', estimatedCost: 'Estimated Cost ($)',
-    priority: 'Priority', status: 'Status', source: 'Source / Where to Buy',
-    high: 'High', medium: 'Medium', low: 'Low', wanted: 'Wanted', purchased: 'Purchased',
-    addService: 'Add Service', editService: 'Edit Service', serviceName: 'Service Name',
-    deviceType: 'Device / Job Type', price: 'Price ($)', margin: 'Margin',
-    bizName: 'Business Name', tagline: 'Tagline', brandColor: 'Primary Brand Color',
-    darkMode: 'Dark Mode', tabLabels: 'Tab Labels', jobsTabName: 'Jobs Tab Name',
-    profitPresets: 'Profit Presets', stdMin: 'Standard Minimum Profit ($)',
-    budgetMin: 'Budget Minimum Profit ($)', irsRate: 'IRS Mileage Rate ($/mile)',
-    security: 'Security', newPassword: 'Settings Password', sheetsSync: 'Google Sheets Sync',
-    sheetsUrl: 'Apps Script Web App URL', testConnection: 'Test Connection',
-    dataManagement: 'Data Management', exportJson: 'Export JSON', importJson: 'Import JSON',
-    clearAll: 'Clear All Data', saveSettings: 'Save All Settings', lock: 'Lock',
-    enterPassword: 'Enter Password', defaultPw: 'Default password:',
-    bizInfo: 'Business Info', branding: 'Branding', invoice: 'Invoice',
-    invoicePreview: 'Invoice Preview', printSavePdf: 'Print / Save PDF',
-    billTo: 'Bill To', paymentStatusLabel: 'Payment Status',
-    description: 'Description', amount: 'Amount', total: 'Total',
-    thankYou: 'Thank you for your business.',
-    minCharge: 'Minimum Charge', calcMaterials: 'Materials Cost ($)',
-    calcMinProfit: 'Minimum Profit Target', calcTravel: 'Travel Fee (optional)',
-    calcMiles: 'Miles (for reference)', standard: 'Standard', budget: 'Budget',
-    travelFeeLabel: 'Travel Fee', totalValue: 'Total Value', left: 'left',
-    noInventory: 'No inventory items', noInvestments: 'No investments tracked',
-    noServices: 'No services added', noPhotos: 'No photos yet',
-    noMileage: 'No mileage data yet', totalPlanned: 'Total Planned',
-    totalPurchased: 'Purchased', stillNeeded: 'Still Needed', budgetRequired: 'Budget required',
-    mileageTravel: 'Mileage & Travel', taxYear: 'Tax year', irsRateLabel: 'IRS rate',
-    neverOnInvoice: 'Never shown on invoice', collectedFromCustomers: 'Collected from customers',
-    jobsWithMileage: 'Jobs with Mileage', profitLabel: 'Profit', afterTravel: 'After Travel',
-    taxDed: 'Tax Ded', servicesOffered: 'Services Offered', jobsWithPhotos: 'jobs with photos',
+    monthlyBreakdown: 'Monthly Breakdown', lowStockAlerts: 'Low Stock Alerts',
+    revenue: 'Revenue', profit: 'Profit', paid: 'Paid', unpaid: 'Unpaid',
+    searchJobs: 'Search jobs...', all: 'All', noJobsFound: 'No jobs found',
+    totalValue: 'Total Value', low: 'Low', noInventory: 'No inventory items',
+    noInvestments: 'No investments tracked', noServices: 'No services added',
+    noPhotos: 'No photos yet', noMileage: 'No mileage data yet',
+    totalPlanned: 'Total Planned', totalPurchased: 'Purchased', stillNeeded: 'Still Needed',
+    budgetRequired: 'Budget required', mileageTravel: 'Mileage & Travel',
+    taxYear: 'Tax year', irsRateLabel: 'IRS rate', neverOnInvoice: 'Never shown on invoice',
+    collectedFromCustomers: 'Collected from customers', jobsWithMileage: 'Jobs with Mileage',
+    profitLabel: 'Profit', afterTravel: 'After Travel', taxDed: 'Tax Ded',
+    servicesOffered: 'Services Offered', jobsWithPhotos: 'jobs with photos',
     before: 'BEFORE', after: 'AFTER', noBeforePhoto: 'No before photo', noAfterPhoto: 'No after photo',
-    timerAttach: 'Attach Timer to Job', timerSelectJob: 'Select Job', noJob: 'No job', skip: 'Skip', attach: 'Attach',
-    afterPhotoRequired: 'Complete Job - After Photo Required',
-    afterPhotoMsg: 'An after photo is required to mark this job complete. Please take or upload a photo.',
-    afterPhoto: 'After Photo', confirmComplete: 'Confirm Complete',
-    settingsPassword: 'Settings Password', unlock: 'Unlock',
-    tapToAddLogo: 'TAP TO ADD LOGO',
-    language: 'Language',
+    amount: 'Amount', materialsCost: 'Materials Cost',
+    bizName: 'Business Name', tagline: 'Tagline', brandColor: 'Primary Brand Color',
+    darkMode: 'Dark Mode', jobsTabName: 'Jobs Tab Name',
+    stdMin: 'Standard Minimum Profit ($)', budgetMin: 'Budget Minimum Profit ($)',
+    irsRate: 'IRS Mileage Rate ($/mile)', newPassword: 'Settings Password',
+    sheetsSync: 'Google Sheets Sync', sheetsUrl: 'Apps Script Web App URL',
+    testConnection: 'Test Connection', syncNow: 'Sync All Data Now',
+    exportJson: 'Export JSON', importJson: 'Import JSON',
+    clearAll: 'Clear All Data', saveSettings: 'Save All Settings', lock: 'Lock',
+    language: 'Language', high: 'High', medium: 'Medium', wanted: 'Wanted', purchased: 'Purchased',
+    travelFeeLabel: 'Travel Fee', margin: 'Margin', category: 'Category',
+    minCharge: 'Minimum Charge', standard: 'Standard', budget: 'Budget',
+    calcMaterials: 'Materials Cost ($)', calcMinProfit: 'Minimum Profit Target',
+    calcTravel: 'Travel Fee (optional)', calcMiles: 'Miles (for reference)',
+    phone: 'Phone Number', serviceType: 'Service Type', date: 'Date',
+    customerName: 'Customer Name', bizInfo: 'Business Info', branding: 'Branding',
+    profitPresets: 'Profit Presets', security: 'Security', dataManagement: 'Data Management',
+    priority: 'Priority', status: 'Status', source: 'Source / Where to Buy',
+    addPart: 'Add Part', addInvestment: 'Add Investment', addService: 'Add Service',
+    partName: 'Part Name', typeModel: 'Type / Model', quantity: 'Quantity',
+    costPerUnit: 'Cost Per Unit', serviceName: 'Service Name', deviceType: 'Device / Job Type',
+    price: 'Price', itemName: 'Item Name', estimatedCost: 'Est. Cost',
+    tabLabels: 'Tab Labels',
   },
   es: {
     dashboard: 'Panel', jobs: () => settings.jobsLabel, calculator: 'Calculadora',
     inventory: 'Inventario', mileage: 'Kilometraje', investments: 'Inversiones',
     services: 'Servicios', photos: 'Fotos', settings: 'Configuracion',
-    toggleTheme: 'Cambiar Tema', newJob: 'Nuevo Trabajo', editJob: 'Editar Trabajo',
-    saveJob: 'Guardar', cancel: 'Cancelar', delete: 'Eliminar', save: 'Guardar',
+    toggleTheme: 'Cambiar Tema', newJob: 'Nuevo Trabajo',
     totalRevenue: 'Ingresos Totales', totalProfit: 'Ganancia Total',
     thisMonthRevenue: 'Ingresos Este Mes', thisMonthProfit: 'Ganancia Este Mes',
     unpaidBalance: 'Balance Sin Pagar', totalJobs: 'trabajos en total', jobsThisMonth: 'trabajos este mes',
     unpaidJobs: 'trabajos sin pagar', afterMaterials: 'Despues de materiales',
     milesThisYear: 'Millas Este Ano', taxDeduction: 'Deduccion de Impuestos',
     travelFees: 'Cargos de Viaje', mobileJobs: 'Trabajos Moviles',
-    avgJobTime: 'Tiempo Promedio', monthlyBreakdown: 'Resumen Mensual',
-    lowStockAlerts: 'Alertas de Inventario Bajo', revenue: 'Ingresos', profit: 'Ganancia',
-    customerName: 'Nombre del Cliente', phone: 'Telefono', serviceType: 'Tipo de Servicio',
-    date: 'Fecha', amountCharged: 'Monto Cobrado ($)', materialsCost: 'Costo de Materiales ($)',
-    jobType: 'Tipo de Trabajo', miles: 'Millas (solo impuestos)', addTravelFee: 'Agregar cargo de viaje',
-    paymentStatus: 'Estado de Pago', notes: 'Notas', paid: 'Pagado', unpaid: 'Sin Pagar',
-    onSite: 'En Sitio', mobile: 'Movil', searchJobs: 'Buscar trabajos...', all: 'Todos',
-    noJobsFound: 'No se encontraron trabajos', addPart: 'Agregar Parte', editPart: 'Editar Parte',
-    partName: 'Nombre de Parte / Material', typeModel: 'Tipo / Modelo Compatible',
-    quantity: 'Cantidad', costPerUnit: 'Costo por Unidad ($)', lowStockAlert: 'Umbral de Alerta de Stock Bajo',
-    addInvestment: 'Agregar Inversion', editInvestment: 'Editar Inversion',
-    itemName: 'Nombre del Articulo', category: 'Categoria', estimatedCost: 'Costo Estimado ($)',
-    priority: 'Prioridad', status: 'Estado', source: 'Fuente / Donde Comprar',
-    high: 'Alta', medium: 'Media', low: 'Baja', wanted: 'Deseado', purchased: 'Comprado',
-    addService: 'Agregar Servicio', editService: 'Editar Servicio', serviceName: 'Nombre del Servicio',
-    deviceType: 'Dispositivo / Tipo de Trabajo', price: 'Precio ($)', margin: 'Margen',
-    bizName: 'Nombre del Negocio', tagline: 'Eslogan', brandColor: 'Color Principal de Marca',
-    darkMode: 'Modo Oscuro', tabLabels: 'Etiquetas de Pestanas', jobsTabName: 'Nombre de Pestana de Trabajos',
-    profitPresets: 'Preajustes de Ganancia', stdMin: 'Ganancia Minima Estandar ($)',
-    budgetMin: 'Ganancia Minima Economica ($)', irsRate: 'Tasa de Millaje IRS ($/milla)',
-    security: 'Seguridad', newPassword: 'Contrasena de Configuracion', sheetsSync: 'Sincronizacion con Google Sheets',
-    sheetsUrl: 'URL de Apps Script', testConnection: 'Probar Conexion',
-    dataManagement: 'Gestion de Datos', exportJson: 'Exportar JSON', importJson: 'Importar JSON',
-    clearAll: 'Borrar Todos los Datos', saveSettings: 'Guardar Configuracion', lock: 'Bloquear',
-    enterPassword: 'Ingresar Contrasena', defaultPw: 'Contrasena predeterminada:',
-    bizInfo: 'Informacion del Negocio', branding: 'Marca', invoice: 'Factura',
-    invoicePreview: 'Vista Previa de Factura', printSavePdf: 'Imprimir / Guardar PDF',
-    billTo: 'Facturar A', paymentStatusLabel: 'Estado de Pago',
-    description: 'Descripcion', amount: 'Monto', total: 'Total',
-    thankYou: 'Gracias por su negocio.',
-    minCharge: 'Cargo Minimo', calcMaterials: 'Costo de Materiales ($)',
-    calcMinProfit: 'Ganancia Minima Deseada', calcTravel: 'Cargo de Viaje (opcional)',
-    calcMiles: 'Millas (referencia)', standard: 'Estandar', budget: 'Economico',
-    travelFeeLabel: 'Cargo de Viaje', totalValue: 'Valor Total', left: 'restantes',
-    noInventory: 'Sin articulos en inventario', noInvestments: 'Sin inversiones registradas',
-    noServices: 'Sin servicios agregados', noPhotos: 'Sin fotos aun',
+    monthlyBreakdown: 'Resumen Mensual', lowStockAlerts: 'Alertas de Inventario Bajo',
+    revenue: 'Ingresos', profit: 'Ganancia', paid: 'Pagado', unpaid: 'Sin Pagar',
+    searchJobs: 'Buscar trabajos...', all: 'Todos', noJobsFound: 'No se encontraron trabajos',
+    totalValue: 'Valor Total', low: 'Bajo', noInventory: 'Sin articulos',
+    noInvestments: 'Sin inversiones', noServices: 'Sin servicios', noPhotos: 'Sin fotos',
     noMileage: 'Sin datos de kilometraje', totalPlanned: 'Total Planeado',
     totalPurchased: 'Comprados', stillNeeded: 'Aun Necesario', budgetRequired: 'Presupuesto necesario',
     mileageTravel: 'Kilometraje y Viaje', taxYear: 'Ano fiscal', irsRateLabel: 'Tasa IRS',
-    neverOnInvoice: 'Nunca aparece en factura', collectedFromCustomers: 'Cobrado a clientes',
-    jobsWithMileage: 'Trabajos con Kilometraje', profitLabel: 'Ganancia', afterTravel: 'Despues de Viaje',
-    taxDed: 'Ded. Imp.', servicesOffered: 'Servicios Ofrecidos', jobsWithPhotos: 'trabajos con fotos',
+    neverOnInvoice: 'Nunca en factura', collectedFromCustomers: 'Cobrado a clientes',
+    jobsWithMileage: 'Trabajos con Kilometraje', profitLabel: 'Ganancia',
+    afterTravel: 'Despues de Viaje', taxDed: 'Ded. Imp.',
+    servicesOffered: 'Servicios Ofrecidos', jobsWithPhotos: 'trabajos con fotos',
     before: 'ANTES', after: 'DESPUES', noBeforePhoto: 'Sin foto antes', noAfterPhoto: 'Sin foto despues',
-    timerAttach: 'Adjuntar Temporizador', timerSelectJob: 'Seleccionar Trabajo', noJob: 'Sin trabajo', skip: 'Omitir', attach: 'Adjuntar',
-    afterPhotoRequired: 'Completar Trabajo - Foto Requerida',
-    afterPhotoMsg: 'Se requiere una foto del trabajo terminado. Tome o suba una foto.',
-    afterPhoto: 'Foto Final', confirmComplete: 'Confirmar Completado',
-    settingsPassword: 'Contrasena de Configuracion', unlock: 'Desbloquear',
-    tapToAddLogo: 'TOQUE PARA AGREGAR LOGO',
-    language: 'Idioma',
+    amount: 'Monto', materialsCost: 'Costo Materiales',
+    bizName: 'Nombre del Negocio', tagline: 'Eslogan', brandColor: 'Color de Marca',
+    darkMode: 'Modo Oscuro', jobsTabName: 'Nombre Pestana de Trabajos',
+    stdMin: 'Ganancia Minima Estandar ($)', budgetMin: 'Ganancia Minima Economica ($)',
+    irsRate: 'Tasa IRS ($/milla)', newPassword: 'Contrasena de Configuracion',
+    sheetsSync: 'Sincronizacion Google Sheets', sheetsUrl: 'URL de Apps Script',
+    testConnection: 'Probar Conexion', syncNow: 'Sincronizar Ahora',
+    exportJson: 'Exportar JSON', importJson: 'Importar JSON',
+    clearAll: 'Borrar Todos los Datos', saveSettings: 'Guardar Configuracion', lock: 'Bloquear',
+    language: 'Idioma', high: 'Alta', medium: 'Media', wanted: 'Deseado', purchased: 'Comprado',
+    travelFeeLabel: 'Cargo de Viaje', margin: 'Margen', category: 'Categoria',
+    minCharge: 'Cargo Minimo', standard: 'Estandar', budget: 'Economico',
+    calcMaterials: 'Costo de Materiales ($)', calcMinProfit: 'Ganancia Minima Deseada',
+    calcTravel: 'Cargo de Viaje (opcional)', calcMiles: 'Millas (referencia)',
+    phone: 'Telefono', serviceType: 'Tipo de Servicio', date: 'Fecha',
+    customerName: 'Nombre del Cliente', bizInfo: 'Informacion del Negocio', branding: 'Marca',
+    profitPresets: 'Preajustes de Ganancia', security: 'Seguridad', dataManagement: 'Gestion de Datos',
+    priority: 'Prioridad', status: 'Estado', source: 'Fuente / Donde Comprar',
+    addPart: 'Agregar Parte', addInvestment: 'Agregar Inversion', addService: 'Agregar Servicio',
+    partName: 'Nombre de Parte', typeModel: 'Tipo / Modelo', quantity: 'Cantidad',
+    costPerUnit: 'Costo por Unidad', serviceName: 'Nombre del Servicio', deviceType: 'Tipo de Trabajo',
+    price: 'Precio', itemName: 'Nombre del Articulo', estimatedCost: 'Costo Estimado',
+    tabLabels: 'Etiquetas de Pestanas',
   }
 };
-
 function t(key) {
   const val = T[currentLang]?.[key] || T['en']?.[key] || key;
   return typeof val === 'function' ? val() : val;
 }
-
 function toggleLanguage() {
   currentLang = currentLang === 'en' ? 'es' : 'en';
   localStorage.setItem('topair_lang', currentLang);
-  const btn = document.getElementById('langToggleTop');
-  if (btn) btn.textContent = currentLang === 'en' ? 'ES' : 'EN';
-  // Update logo placeholder text
-  const pt = document.getElementById('logoPlaceholderText');
-  if (pt && !document.getElementById('logoPlaceholder').querySelector('img')) pt.textContent = t('tapToAddLogo');
-  buildNav();
-  renderTab(currentTab);
+  document.getElementById('langToggleTop').textContent = currentLang === 'en' ? 'ES' : 'EN';
+  buildNav(); renderTab(currentTab);
 }
 
 // ============================================================
-// LOGO UPLOAD
+// LOGO
 // ============================================================
 function triggerLogoUpload() { document.getElementById('logoUploadInput').click(); }
 function handleLogoUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
-  reader.onload = (ev) => {
-    const data = ev.target.result;
-    localStorage.setItem('topair_logo', data);
-    applyLogo(data);
-  };
+  reader.onload = (ev) => { localStorage.setItem('topair_logo', ev.target.result); applyLogo(ev.target.result); };
   reader.readAsDataURL(file);
 }
 function applyLogo(data) {
-  const placeholder = document.getElementById('logoPlaceholder');
-  if (!placeholder) return;
-  placeholder.innerHTML = `<img src="${data}" style="width:100%;height:100%;object-fit:contain;position:absolute;inset:0;">`;
-  // Mobile topbar logo
-  const topWrap = document.getElementById('topbarLogoWrap');
-  if (topWrap) topWrap.innerHTML = `<img src="${data}" style="height:30px;width:auto;object-fit:contain;max-width:80px;">`;
+  const p = document.getElementById('logoPlaceholder');
+  if (p) p.innerHTML = `<img src="${data}" style="width:100%;height:100%;object-fit:contain;position:absolute;inset:0;">`;
+  const tw = document.getElementById('topbarLogoWrap');
+  if (tw) tw.innerHTML = `<img src="${data}" style="height:30px;width:auto;object-fit:contain;max-width:80px;">`;
 }
 
 // ============================================================
-// NAVIGATION
+// NAV
 // ============================================================
 const NAV_ITEMS = [
   { id: 'dashboard', labelKey: 'dashboard', icon: 'grid' },
@@ -1285,7 +814,6 @@ const NAV_ITEMS = [
   { id: 'servicelist', labelKey: 'services', icon: 'list', module: 'SERVICELIST' },
   { id: 'photos', labelKey: 'photos', icon: 'camera', module: 'PHOTOS' },
 ];
-const BOTTOM_NAV_ITEMS = ['dashboard', 'jobs', 'calculator', 'settings'];
 const SVG_ICONS = {
   'grid': '<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>',
   'briefcase': '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>',
@@ -1297,16 +825,17 @@ const SVG_ICONS = {
   'camera': '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
   'settings': '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
   'sun': '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
-  'moon': '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+  'external': '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+  'inbox': '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
   'plus': '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
   'edit': '<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>',
   'trash': '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>',
-  'file-text': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>',
+  'file-text': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>',
   'dollar': '<line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
   'clock': '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
-  'external': '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
-  'inbox': '<polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
   'check': '<polyline points="20 6 9 17 4 12"/>',
+  'refresh': '<polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>',
+  'search': '<circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>',
 };
 function icon(name, size=16) {
   return `<svg viewBox="0 0 24 24" width="${size}" height="${size}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${SVG_ICONS[name]||''}</svg>`;
@@ -1316,23 +845,17 @@ function buildNav() {
   const nav = document.getElementById('sidebarNav');
   const bottom = document.getElementById('sidebarBottom');
   const bottomInner = document.getElementById('bottomnavInner');
-
   const visibleItems = NAV_ITEMS.filter(n => !n.module || MODULES[n.module]);
-  const mainItems = visibleItems;
-  const settingsItem = { id: 'settings', labelKey: 'settings', icon: 'settings' };
 
   nav.innerHTML = '';
-  mainItems.forEach(item => {
-    const label = t(item.labelKey);
+  visibleItems.forEach(item => {
     const el = document.createElement('div');
     el.className = 'nav-item' + (currentTab === item.id ? ' active' : '');
-    el.innerHTML = `${icon(item.icon)} <span>${label}</span>`;
-    el.dataset.tab = item.id;
+    el.innerHTML = `${icon(item.icon)} <span>${t(item.labelKey)}</span>`;
     el.addEventListener('click', () => switchTab(item.id));
     nav.appendChild(el);
   });
 
-  // Sidebar bottom: theme + language + settings
   bottom.innerHTML = '';
   const themeBtn = document.createElement('div');
   themeBtn.className = 'nav-item';
@@ -1352,15 +875,12 @@ function buildNav() {
   settingsEl.addEventListener('click', () => switchTab('settings'));
   bottom.appendChild(settingsEl);
 
-  // Bottom nav (mobile) — show first 4 visible items + settings
-  const mobileItems = [...mainItems.slice(0, 4), settingsItem];
+  const mobileItems = [...visibleItems.slice(0, 4), { id: 'settings', labelKey: 'settings', icon: 'settings' }];
   bottomInner.innerHTML = '';
   mobileItems.forEach(item => {
-    const label = t(item.labelKey);
     const el = document.createElement('div');
     el.className = 'bottom-item' + (currentTab === item.id ? ' active' : '');
-    el.innerHTML = `${icon(item.icon, 20)} <span>${label}</span>`;
-    el.dataset.tab = item.id;
+    el.innerHTML = `${icon(item.icon, 20)} <span>${t(item.labelKey)}</span>`;
     el.addEventListener('click', () => switchTab(item.id));
     bottomInner.appendChild(el);
   });
@@ -1376,60 +896,28 @@ function switchTab(tabId) {
   currentTab = tabId;
   document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
   const el = document.getElementById('tab-' + tabId);
-  if (el) { el.classList.add('active'); renderTab(tabId); }
+  if (el) { el.classList.add('active'); el.scrollTop = 0; renderTab(tabId); }
   buildNav();
 }
 
-// ============================================================
-// MODAL HELPERS
-// ============================================================
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-// ============================================================
-// TOAST
-// ============================================================
 function toast(msg, type = 'info') {
-  const t = document.createElement('div');
-  t.className = `toast ${type}`;
-  t.textContent = msg;
-  document.getElementById('toastContainer').appendChild(t);
-  setTimeout(() => t.remove(), 3200);
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3200);
 }
 
-// ============================================================
-// FORMAT HELPERS
-// ============================================================
 function fmt$(n) { return '$' + (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
-function fmtDate(d) {
-  if (!d) return '';
-  const p = d.split('-');
-  return `${p[1]}/${p[2]}/${p[0]}`;
-}
+function fmtDate(d) { if (!d) return ''; const p = d.split('-'); return `${p[1]}/${p[2]}/${p[0]}`; }
 function todayStr() { return new Date().toISOString().slice(0, 10); }
 function monthKey(d) { return d ? d.slice(0, 7) : ''; }
-function fmtSecs(s) {
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const ss = s % 60;
-  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;
-}
 
-// ============================================================
-// RENDER TAB DISPATCHER
-// ============================================================
 function renderTab(id) {
-  const renders = {
-    dashboard: renderDashboard,
-    jobs: renderJobs,
-    calculator: renderCalculator,
-    inventory: renderInventory,
-    mileage: renderMileage,
-    investments: renderInvestments,
-    servicelist: renderServiceList,
-    photos: renderPhotos,
-    settings: renderSettings
-  };
+  const renders = { dashboard: renderDashboard, jobs: renderJobs, calculator: renderCalculator, inventory: renderInventory, mileage: renderMileage, investments: renderInvestments, servicelist: renderServiceList, photos: renderPhotos, settings: renderSettings };
   if (renders[id]) renders[id]();
 }
 
@@ -1440,131 +928,64 @@ function renderDashboard() {
   const el = document.getElementById('tab-dashboard');
   const now = new Date();
   const thisMonth = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-
-  const allJobs = jobs;
-  const monthJobs = allJobs.filter(j => monthKey(j.date) === thisMonth);
-
-  const totalRevenue = allJobs.reduce((a, j) => a + (parseFloat(j.amount)||0), 0);
-  const totalMaterials = allJobs.reduce((a, j) => a + (parseFloat(j.materials)||0), 0);
+  const monthJobs = jobs.filter(j => monthKey(j.date) === thisMonth);
+  const totalRevenue = jobs.reduce((a, j) => a + (parseFloat(j.amount)||0), 0);
+  const totalMaterials = jobs.reduce((a, j) => a + (parseFloat(j.materials)||0), 0);
   const totalProfit = totalRevenue - totalMaterials;
-  const unpaidBalance = allJobs.filter(j => j.payment === 'unpaid').reduce((a, j) => a + (parseFloat(j.amount)||0), 0);
+  const unpaidBalance = jobs.filter(j => j.payment === 'unpaid').reduce((a, j) => a + (parseFloat(j.amount)||0), 0);
   const monthRevenue = monthJobs.reduce((a, j) => a + (parseFloat(j.amount)||0), 0);
   const monthMaterials = monthJobs.reduce((a, j) => a + (parseFloat(j.materials)||0), 0);
   const monthProfit = monthRevenue - monthMaterials;
-
-  const avgTimer = (() => {
-    if (!MODULES.TIMER) return null;
-    const withTimer = allJobs.filter(j => j.timerSecs > 0);
-    if (!withTimer.length) return null;
-    return Math.round(withTimer.reduce((a, j) => a + j.timerSecs, 0) / withTimer.length);
-  })();
-
-  const totalMiles = MODULES.MILEAGE ? allJobs.reduce((a, j) => a + (parseFloat(j.miles)||0), 0) : 0;
+  const totalMiles = MODULES.MILEAGE ? jobs.reduce((a, j) => a + (parseFloat(j.miles)||0), 0) : 0;
   const taxDeduction = totalMiles * (settings.irsRate || 0.67);
-  const travelFees = MODULES.MILEAGE ? allJobs.reduce((a, j) => a + (j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0), 0) : 0;
-
-  // Monthly breakdown
+  const travelFees = MODULES.MILEAGE ? jobs.reduce((a, j) => a + (j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0), 0) : 0;
   const monthMap = {};
-  allJobs.forEach(j => {
-    const mk = monthKey(j.date);
-    if (!mk) return;
+  jobs.forEach(j => {
+    const mk = monthKey(j.date); if (!mk) return;
     if (!monthMap[mk]) monthMap[mk] = { rev: 0, mat: 0, count: 0 };
     monthMap[mk].rev += parseFloat(j.amount)||0;
     monthMap[mk].mat += parseFloat(j.materials)||0;
     monthMap[mk].count++;
   });
   const monthKeys = Object.keys(monthMap).sort().reverse().slice(0, 6);
-
   const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
   el.innerHTML = `
     <div class="page-header">
-      <div>
-        <div class="page-title">${t('dashboard')}</div>
-        <div class="page-subtitle">${settings.bizName}</div>
-      </div>
+      <div><div class="page-title">${t('dashboard')}</div><div class="page-subtitle">${settings.bizName}</div></div>
     </div>
-
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-label">${t('totalRevenue')}</div>
-        <div class="stat-value green">${fmt$(totalRevenue)}</div>
-        <div class="stat-sub">${allJobs.length} ${t('totalJobs')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('totalProfit')}</div>
-        <div class="stat-value green">${fmt$(totalProfit)}</div>
-        <div class="stat-sub">${t('afterMaterials')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('thisMonthRevenue')}</div>
-        <div class="stat-value green">${fmt$(monthRevenue)}</div>
-        <div class="stat-sub">${monthJobs.length} ${t('jobsThisMonth')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('thisMonthProfit')}</div>
-        <div class="stat-value green">${fmt$(monthProfit)}</div>
-        <div class="stat-sub">${t('afterMaterials')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('unpaidBalance')}</div>
-        <div class="stat-value red">${fmt$(unpaidBalance)}</div>
-        <div class="stat-sub">${allJobs.filter(j=>j.payment==='unpaid').length} ${t('unpaidJobs')}</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">${t('totalRevenue')}</div><div class="stat-value green">${fmt$(totalRevenue)}</div><div class="stat-sub">${jobs.length} ${t('totalJobs')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('totalProfit')}</div><div class="stat-value green">${fmt$(totalProfit)}</div><div class="stat-sub">${t('afterMaterials')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('thisMonthRevenue')}</div><div class="stat-value green">${fmt$(monthRevenue)}</div><div class="stat-sub">${monthJobs.length} ${t('jobsThisMonth')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('thisMonthProfit')}</div><div class="stat-value green">${fmt$(monthProfit)}</div><div class="stat-sub">${t('afterMaterials')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('unpaidBalance')}</div><div class="stat-value red">${fmt$(unpaidBalance)}</div><div class="stat-sub">${jobs.filter(j=>j.payment==='unpaid').length} ${t('unpaidJobs')}</div></div>
       ${MODULES.MILEAGE ? `
-      <div class="stat-card">
-        <div class="stat-label">${t('milesThisYear')}</div>
-        <div class="stat-value">${totalMiles.toFixed(0)}</div>
-        <div class="stat-sub">${t('taxDeduction')}: ${fmt$(taxDeduction)}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('travelFees')}</div>
-        <div class="stat-value green">${fmt$(travelFees)}</div>
-        <div class="stat-sub">${t('mobileJobs')}</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">${t('milesThisYear')}</div><div class="stat-value">${totalMiles.toFixed(0)}</div><div class="stat-sub">${t('taxDeduction')}: ${fmt$(taxDeduction)}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('travelFees')}</div><div class="stat-value green">${fmt$(travelFees)}</div><div class="stat-sub">${t('mobileJobs')}</div></div>
       ` : ''}
     </div>
-
     ${monthKeys.length > 0 ? `
     <div class="section-title">${t('monthlyBreakdown')}</div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px;">
       ${monthKeys.map(mk => {
         const [yr, mo] = mk.split('-');
-        const mdata = monthMap[mk];
-        return `
-        <div class="month-card">
-          <div>
-            <div class="month-name">${monthNames[parseInt(mo)-1]} ${yr}</div>
-            <div style="font-size:11.5px;color:var(--text-3);">${mdata.count} ${t('jobsThisMonth').replace('this month','').replace('este mes','')}</div>
-          </div>
+        const md = monthMap[mk];
+        return `<div class="month-card">
+          <div><div class="month-name">${monthNames[parseInt(mo)-1]} ${yr}</div><div style="font-size:11.5px;color:var(--text-3);">${md.count} jobs</div></div>
           <div class="month-stats">
-            <div class="month-stat">
-              <div class="month-stat-label">${t('revenue')}</div>
-              <div class="month-stat-value" style="color:var(--success)">${fmt$(mdata.rev)}</div>
-            </div>
-            <div class="month-stat">
-              <div class="month-stat-label">${t('profit')}</div>
-              <div class="month-stat-value" style="color:var(--success)">${fmt$(mdata.rev - mdata.mat)}</div>
-            </div>
+            <div class="month-stat"><div class="month-stat-label">${t('revenue')}</div><div class="month-stat-value" style="color:var(--success)">${fmt$(md.rev)}</div></div>
+            <div class="month-stat"><div class="month-stat-label">${t('profit')}</div><div class="month-stat-value" style="color:var(--success)">${fmt$(md.rev - md.mat)}</div></div>
           </div>
         </div>`;
       }).join('')}
-    </div>
-    ` : ''}
-
+    </div>` : ''}
     ${MODULES.INVENTORY ? (() => {
       const lowStock = inventory.filter(i => (parseInt(i.qty)||0) <= (parseInt(i.alert)||0) && i.alert);
       if (!lowStock.length) return '';
-      return `
-        <div class="section-title">${t('lowStockAlerts')}</div>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          ${lowStock.map(i => `
-          <div class="card card-sm" style="border-left:3px solid var(--warning);display:flex;align-items:center;justify-content:space-between;">
-            <span style="font-weight:600;font-size:13px;">${i.name}</span>
-            <span class="badge badge-gray">${i.qty} left</span>
-          </div>`).join('')}
-        </div>
-      `;
+      return `<div class="section-title">${t('lowStockAlerts')}</div><div style="display:flex;flex-direction:column;gap:6px;">
+        ${lowStock.map(i => `<div class="card card-sm" style="border-left:3px solid var(--warning);display:flex;align-items:center;justify-content:space-between;"><span style="font-weight:600;font-size:13px;">${i.name}</span><span class="badge badge-gray">${i.qty} left</span></div>`).join('')}
+      </div>`;
     })() : ''}
   `;
 }
@@ -1589,86 +1010,50 @@ function renderJobs() {
 
   el.innerHTML = `
     <div class="page-header">
-      <div>
-        <div class="page-title">${t('jobs')}</div>
-        <div class="page-subtitle">${jobs.length} ${t('totalJobs')}</div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button class="btn btn-primary btn-sm" onclick="openJobModal()">${icon('plus')} ${t('newJob')}</button>
-      </div>
+      <div><div class="page-title">${t('jobs')}</div><div class="page-subtitle">${jobs.length} ${t('totalJobs')}</div></div>
+      <button class="btn btn-primary btn-sm" onclick="openJobModal()">${icon('plus')} ${t('newJob')}</button>
     </div>
-
     <div class="filter-row">
-      <div class="search-bar">
-        ${icon('search')}
-        <input type="text" placeholder="${t('searchJobs')}" value="${jobSearch}" oninput="jobSearch=this.value;renderJobs()">
-      </div>
+      <div class="search-bar">${icon('search')}<input type="text" placeholder="${t('searchJobs')}" value="${jobSearch}" oninput="jobSearch=this.value;renderJobs()"></div>
       <select style="width:auto;" onchange="jobFilter=this.value;renderJobs()">
         <option value="all" ${jobFilter==='all'?'selected':''}>${t('all')}</option>
         <option value="paid" ${jobFilter==='paid'?'selected':''}>${t('paid')}</option>
         <option value="unpaid" ${jobFilter==='unpaid'?'selected':''}>${t('unpaid')}</option>
       </select>
     </div>
-
     ${filtered.length === 0 ? `<div class="empty-state">${icon('inbox',40)}<p>${t('noJobsFound')}</p></div>` : `
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>${t('customerName')}</th>
-            <th class="hide-mobile">${t('serviceType')}</th>
-            <th>${t('amount')}</th>
-            <th>${t('paymentStatus')}</th>
-            <th class="hide-mobile">${t('date')}</th>
-            ${MODULES.PHOTOS ? `<th>${t('photos')}</th>` : ''}
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${filtered.map(j => jobRow(j)).join('')}
-        </tbody>
-      </table>
-    </div>
-    `}
+    <div class="table-wrap"><table>
+      <thead><tr>
+        <th>${t('customerName')}</th>
+        <th class="hide-mobile">${t('serviceType')}</th>
+        <th>${t('amount')}</th>
+        <th>${t('status')}</th>
+        <th class="hide-mobile">${t('date')}</th>
+        ${MODULES.PHOTOS ? `<th>${t('photos')}</th>` : ''}
+        <th></th>
+      </tr></thead>
+      <tbody>${filtered.map(j => jobRow(j)).join('')}</tbody>
+    </table></div>`}
   `;
 }
 
 function jobRow(j) {
   const profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
   const travelFeeAmt = j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0;
-  const profitAfterTravel = profit - travelFeeAmt;
   const taxDed = (parseFloat(j.miles)||0) * (settings.irsRate||0.67);
-
-  const photoDots = MODULES.PHOTOS ? `
-    <td>
-      <div class="photo-dots">
-        <div class="photo-dot ${j.beforePhoto ? 'filled' : ''}"></div>
-        <div class="photo-dot ${j.afterPhoto ? 'filled-green' : ''}"></div>
-      </div>
-    </td>` : '';
-
+  const photoDots = MODULES.PHOTOS ? `<td><div class="photo-dots"><div class="photo-dot ${j.beforePhoto ? 'filled' : ''}"></div><div class="photo-dot ${j.afterPhoto ? 'filled-green' : ''}"></div></div></td>` : '';
   return `<tr>
     <td>
       <div style="font-weight:600;font-size:13px;color:var(--text)">${j.customer||''}</div>
       <div style="font-size:11.5px;color:var(--text-3)">${j.phone||''}</div>
       <div class="profit-row" style="display:none" id="profit-${j.id}">
-        ${MODULES.MILEAGE ? `
         <span class="profit-item blue">Profit: ${fmt$(profit)}</span>
-        <span class="profit-item blue">After Travel: ${fmt$(profitAfterTravel)}</span>
-        <span class="profit-item blue">Tax Ded: ${fmt$(taxDed)}</span>
-        ` : `<span class="profit-item blue">Profit: ${fmt$(profit)}</span>`}
+        ${MODULES.MILEAGE ? `<span class="profit-item blue">After Travel: ${fmt$(profit - travelFeeAmt)}</span><span class="profit-item blue">Tax Ded: ${fmt$(taxDed)}</span>` : ''}
       </div>
     </td>
-    <td class="hide-mobile" style="max-width:160px;white-space:normal;">
-      <div style="font-size:13px">${j.service||''}</div>
-      ${j.timerSecs ? `<div style="font-size:11px;color:var(--text-3)">${icon('clock',11)} ${fmtSecs(j.timerSecs)}</div>` : ''}
-    </td>
+    <td class="hide-mobile">${j.service||''}</td>
     <td style="font-family:var(--font-mono);font-weight:600;">${fmt$(j.amount)}</td>
-    <td>
-      <button class="badge ${j.payment==='paid' ? 'badge-green' : 'badge-red'}" onclick="togglePayment('${j.id}')" title="Toggle payment">
-        ${j.payment==='paid' ? t('paid') : t('unpaid')}
-      </button>
-    </td>
+    <td><button class="badge ${j.payment==='paid' ? 'badge-green' : 'badge-red'}" onclick="togglePayment('${j.id}')">${j.payment==='paid' ? t('paid') : t('unpaid')}</button></td>
     <td class="hide-mobile" style="color:var(--text-3);font-size:12px;">${fmtDate(j.date)}</td>
     ${photoDots}
     <td>
@@ -1676,7 +1061,7 @@ function jobRow(j) {
         <button class="btn btn-icon btn-secondary btn-sm" onclick="toggleProfitRow('${j.id}')" title="Profit">${icon('dollar',13)}</button>
         <button class="btn btn-icon btn-secondary btn-sm" onclick="openInvoice('${j.id}')" title="Invoice">${icon('file-text',13)}</button>
         <button class="btn btn-icon btn-secondary btn-sm" onclick="openJobModal('${j.id}')" title="Edit">${icon('edit',13)}</button>
-        ${MODULES.PHOTOS && j.payment !== 'paid' ? `<button class="btn btn-icon btn-success btn-sm" onclick="promptAfterPhoto('${j.id}')" title="Complete with photo">${icon('camera',13)}</button>` : ''}
+        ${MODULES.PHOTOS && j.payment !== 'paid' ? `<button class="btn btn-icon btn-success btn-sm" onclick="promptAfterPhoto('${j.id}')" title="Complete">${icon('camera',13)}</button>` : ''}
         <button class="btn btn-icon btn-danger btn-sm" onclick="deleteJob('${j.id}')" title="Delete">${icon('trash',13)}</button>
       </div>
     </td>
@@ -1689,7 +1074,6 @@ function toggleProfitRow(id) {
 }
 
 function openJobModal(id) {
-  editingJobId = id || null;
   const j = id ? jobs.find(x => x.id === id) : null;
   document.getElementById('jobModalTitle').textContent = j ? 'Edit Job' : 'New Job';
   document.getElementById('jobId').value = j ? j.id : '';
@@ -1701,22 +1085,17 @@ function openJobModal(id) {
   document.getElementById('jobMaterials').value = j ? j.materials||'' : '';
   document.getElementById('jobPayment').value = j ? j.payment||'unpaid' : 'unpaid';
   document.getElementById('jobNotes').value = j ? j.notes||'' : '';
-
-  // Mileage
-  const mileageRow = document.getElementById('jobMileageRow');
-  const travelRow = document.getElementById('jobTravelFeeRow');
   if (MODULES.MILEAGE) {
-    mileageRow.style.display = '';
-    travelRow.style.display = '';
+    document.getElementById('jobMileageRow').style.display = '';
+    document.getElementById('jobTravelFeeRow').style.display = '';
     document.getElementById('jobMobileType').value = j ? j.mobileType||'onsite' : 'onsite';
     document.getElementById('jobMiles').value = j ? j.miles||'' : '';
     document.getElementById('jobTravelFee').checked = j ? !!j.travelFee : false;
     document.getElementById('jobTravelFeeAmt').value = j ? j.travelFeeAmt||'' : '';
   } else {
-    mileageRow.style.display = 'none';
-    travelRow.style.display = 'none';
+    document.getElementById('jobMileageRow').style.display = 'none';
+    document.getElementById('jobTravelFeeRow').style.display = 'none';
   }
-
   openModal('jobModal');
 }
 
@@ -1738,10 +1117,8 @@ function saveJob() {
     travelFeeAmt: MODULES.MILEAGE ? document.getElementById('jobTravelFeeAmt').value : 0,
   };
   if (!job.customer) { toast('Customer name required', 'error'); return; }
-
   const existing = jobs.find(j => j.id === id);
   if (existing) {
-    // Preserve photos and timer
     job.beforePhoto = existing.beforePhoto;
     job.afterPhoto = existing.afterPhoto;
     job.timerSecs = existing.timerSecs;
@@ -1749,10 +1126,7 @@ function saveJob() {
   } else {
     job.timerSecs = 0;
     jobs.unshift(job);
-    // Before photo prompt on new job
-    if (MODULES.PHOTOS) {
-      setTimeout(() => promptBeforePhoto(job.id), 400);
-    }
+    if (MODULES.PHOTOS) setTimeout(() => promptBeforePhoto(job.id), 400);
   }
   saveData('jobs', jobs);
   closeModal('jobModal');
@@ -1780,105 +1154,13 @@ function togglePayment(id) {
 }
 
 // ============================================================
-// TIMER (inline in jobs tab)
-// ============================================================
-function renderTimerInline() {
-  if (!MODULES.TIMER) return '';
-  const elapsed = timerState.running ? (Date.now() - timerState.start + timerState.elapsed) : timerState.elapsed;
-  const secs = Math.floor(elapsed / 1000);
-  return `
-    <div class="card card-sm" style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-      <div>
-        <div style="font-size:11px;color:var(--text-3);font-weight:600;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:2px;">Job Timer</div>
-        <div class="timer-display" style="font-size:28px;padding:0;" id="timerDisplay">${fmtSecs(secs)}</div>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;">
-        ${!timerState.running && !timerState.paused ? `<button class="btn btn-primary btn-sm" onclick="startTimer()">Start</button>` : ''}
-        ${timerState.running ? `<button class="btn btn-secondary btn-sm" onclick="pauseTimer()">Pause</button>` : ''}
-        ${timerState.paused ? `<button class="btn btn-primary btn-sm" onclick="resumeTimer()">Resume</button>` : ''}
-        ${(timerState.running || timerState.paused) ? `<button class="btn btn-danger btn-sm" onclick="stopTimer()">Stop</button>` : ''}
-        ${!timerState.running && !timerState.paused && secs > 0 ? `<button class="btn btn-secondary btn-sm" onclick="resetTimer()">Reset</button>` : ''}
-      </div>
-      ${timerState.jobId ? `<div style="font-size:11.5px;color:var(--text-3);">Attached to: ${(jobs.find(j=>j.id===timerState.jobId)||{}).customer||'Job'}</div>` : ''}
-    </div>
-  `;
-}
-
-function startTimer() {
-  timerState.running = true;
-  timerState.paused = false;
-  timerState.start = Date.now();
-  if (timerState.interval) clearInterval(timerState.interval);
-  timerState.interval = setInterval(tickTimer, 1000);
-  // Ask to attach to job
-  const sel = document.getElementById('timerJobSelect');
-  if (sel) {
-    sel.innerHTML = `<option value="">No job</option>` + jobs.map(j => `<option value="${j.id}">${j.customer} - ${j.service||'Job'}</option>`).join('');
-    openModal('timerJobModal');
-  }
-  renderJobs();
-}
-function pauseTimer() {
-  timerState.elapsed += Date.now() - timerState.start;
-  timerState.running = false;
-  timerState.paused = true;
-  clearInterval(timerState.interval);
-  renderJobs();
-}
-function resumeTimer() {
-  timerState.running = true;
-  timerState.paused = false;
-  timerState.start = Date.now();
-  timerState.interval = setInterval(tickTimer, 1000);
-  renderJobs();
-}
-function stopTimer() {
-  const totalMs = timerState.running ? (Date.now() - timerState.start + timerState.elapsed) : timerState.elapsed;
-  const secs = Math.floor(totalMs / 1000);
-  timerState.running = false;
-  timerState.paused = false;
-  clearInterval(timerState.interval);
-  // Save to job if attached
-  if (timerState.jobId) {
-    jobs = jobs.map(j => j.id === timerState.jobId ? {...j, timerSecs: (j.timerSecs||0) + secs} : j);
-    saveData('jobs', jobs);
-    toast(`Timer saved: ${fmtSecs(secs)}`, 'success');
-  }
-  timerState.elapsed = 0;
-  timerState.jobId = null;
-  renderJobs();
-}
-function resetTimer() {
-  timerState.elapsed = 0;
-  timerState.running = false;
-  timerState.paused = false;
-  clearInterval(timerState.interval);
-  timerState.jobId = null;
-  renderJobs();
-}
-function tickTimer() {
-  const elapsed = Date.now() - timerState.start + timerState.elapsed;
-  const secs = Math.floor(elapsed / 1000);
-  const el = document.getElementById('timerDisplay');
-  if (el) el.textContent = fmtSecs(secs);
-}
-function attachTimerToJob() {
-  const sel = document.getElementById('timerJobSelect');
-  timerState.jobId = sel ? sel.value : null;
-  closeModal('timerJobModal');
-}
-
-// ============================================================
 // PHOTOS
 // ============================================================
 function promptBeforePhoto(jobId) {
   const inp = document.createElement('input');
-  inp.type = 'file';
-  inp.accept = 'image/*';
-  inp.capture = 'environment';
+  inp.type = 'file'; inp.accept = 'image/*'; inp.capture = 'environment';
   inp.onchange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = (ev) => {
       jobs = jobs.map(j => j.id === jobId ? {...j, beforePhoto: ev.target.result} : j);
@@ -1900,8 +1182,7 @@ function promptAfterPhoto(jobId) {
 }
 
 document.getElementById('afterPhotoInput').addEventListener('change', function(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
     afterPhotoData = ev.target.result;
@@ -1926,61 +1207,36 @@ function renderPhotos() {
   const el = document.getElementById('tab-photos');
   const withPhotos = jobs.filter(j => j.beforePhoto || j.afterPhoto);
   el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">${t('photos')}</div>
-      <div class="page-subtitle">${withPhotos.length} ${t('jobsWithPhotos')}</div>
-    </div>
+    <div class="page-header"><div class="page-title">${t('photos')}</div><div class="page-subtitle">${withPhotos.length} ${t('jobsWithPhotos')}</div></div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;">
       ${withPhotos.length === 0 ? `<div class="empty-state">${icon('camera',40)}<p>${t('noPhotos')}</p></div>` :
-      withPhotos.map(j => `
-        <div class="card card-sm">
-          <div style="font-weight:700;margin-bottom:8px;font-size:14px;">${j.customer}</div>
-          <div style="font-size:12px;color:var(--text-3);margin-bottom:10px;">${j.service||''} - ${fmtDate(j.date)}</div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-            ${j.beforePhoto ? `<div><div style="font-size:10px;font-weight:700;color:var(--text-3);margin-bottom:4px;">${t('before')}</div><img src="${j.beforePhoto}" style="width:100%;border-radius:6px;border:1px solid var(--border);"></div>` : `<div style="border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;min-height:80px;font-size:11px;color:var(--text-3);">${t('noBeforePhoto')}</div>`}
-            ${j.afterPhoto ? `<div><div style="font-size:10px;font-weight:700;color:var(--success);margin-bottom:4px;">${t('after')}</div><img src="${j.afterPhoto}" style="width:100%;border-radius:6px;border:1px solid var(--border);"></div>` : `<div style="border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;min-height:80px;font-size:11px;color:var(--text-3);">${t('noAfterPhoto')}</div>`}
-          </div>
-        </div>`).join('')}
-    </div>
-  `;
+      withPhotos.map(j => `<div class="card card-sm">
+        <div style="font-weight:700;margin-bottom:4px;">${j.customer}</div>
+        <div style="font-size:12px;color:var(--text-3);margin-bottom:10px;">${j.service||''} - ${fmtDate(j.date)}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          ${j.beforePhoto ? `<div><div style="font-size:10px;font-weight:700;color:var(--text-3);margin-bottom:4px;">${t('before')}</div><img src="${j.beforePhoto}" style="width:100%;border-radius:6px;border:1px solid var(--border);"></div>` : `<div style="border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;min-height:80px;font-size:11px;color:var(--text-3);">${t('noBeforePhoto')}</div>`}
+          ${j.afterPhoto ? `<div><div style="font-size:10px;font-weight:700;color:var(--success);margin-bottom:4px;">${t('after')}</div><img src="${j.afterPhoto}" style="width:100%;border-radius:6px;border:1px solid var(--border);"></div>` : `<div style="border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;min-height:80px;font-size:11px;color:var(--text-3);">${t('noAfterPhoto')}</div>`}
+        </div>
+      </div>`).join('')}
+    </div>`;
 }
 
 // ============================================================
 // INVOICE
 // ============================================================
-let currentInvoiceJobId = null;
 function openInvoice(jobId) {
-  currentInvoiceJobId = jobId;
-  const j = jobs.find(x => x.id === jobId);
-  if (!j) return;
+  const j = jobs.find(x => x.id === jobId); if (!j) return;
   const invoiceNum = 'INV-' + j.id.slice(0,6).toUpperCase();
-  const profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
-
   document.getElementById('invoiceBody').innerHTML = `
     <div class="pdf-preview" id="printableInvoice">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-        <div>
-          <h1>${settings.bizName}</h1>
-          <div class="pdf-tagline">${settings.tagline}</div>
-          <div style="margin-top:6px;font-size:13px;color:#555;">${settings.phone}</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:22px;font-weight:800;color:#333;">INVOICE</div>
-          <div style="font-size:13px;color:#888;">${invoiceNum}</div>
-          <div style="font-size:13px;color:#888;">Date: ${fmtDate(j.date)}</div>
-        </div>
+        <div><h1>${settings.bizName}</h1><div class="pdf-tagline">${settings.tagline}</div><div style="margin-top:6px;font-size:13px;color:#555;">${settings.phone}</div></div>
+        <div style="text-align:right;"><div style="font-size:22px;font-weight:800;color:#333;">INVOICE</div><div style="font-size:13px;color:#888;">${invoiceNum}</div><div style="font-size:13px;color:#888;">Date: ${fmtDate(j.date)}</div></div>
       </div>
       <hr style="border:1px solid #e0e0e0;margin:20px 0;">
       <div class="pdf-meta">
-        <div>
-          <div class="pdf-label">Bill To</div>
-          <div class="pdf-value">${j.customer}</div>
-          <div style="font-size:13px;color:#555;">${j.phone||''}</div>
-        </div>
-        <div style="text-align:right;">
-          <div class="pdf-label">Payment Status</div>
-          <span class="pdf-status-${j.payment}">${j.payment === 'paid' ? 'PAID' : 'UNPAID'}</span>
-        </div>
+        <div><div class="pdf-label">Bill To</div><div class="pdf-value">${j.customer}</div><div style="font-size:13px;color:#555;">${j.phone||''}</div></div>
+        <div style="text-align:right;"><div class="pdf-label">Payment Status</div><span class="pdf-status-${j.payment}">${j.payment === 'paid' ? 'PAID' : 'UNPAID'}</span></div>
       </div>
       <table>
         <thead><tr><th>Description</th><th style="text-align:right;">Amount</th></tr></thead>
@@ -1991,11 +1247,8 @@ function openInvoice(jobId) {
       </table>
       <div class="pdf-total">Total: ${fmt$(parseFloat(j.amount||0) + (j.travelFee ? parseFloat(j.travelFeeAmt||0) : 0))}</div>
       ${j.notes ? `<div style="margin-top:16px;padding:12px;background:#f5f5f5;border-radius:6px;font-size:13px;color:#555;"><strong>Notes:</strong> ${j.notes}</div>` : ''}
-      <div class="pdf-footer">
-        ${settings.bizName} - ${settings.tagline}<br>${settings.phone}<br>Thank you for your business.
-      </div>
-    </div>
-  `;
+      <div class="pdf-footer">${settings.bizName} - ${settings.tagline}<br>${settings.phone}<br>Thank you for your business.</div>
+    </div>`;
   openModal('invoiceModal');
 }
 
@@ -2004,25 +1257,8 @@ function printInvoice() {
   const w = window.open('', '_blank');
   w.document.write(`<!DOCTYPE html><html><head><title>Invoice</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>
-  body{font-family:'DM Sans',sans-serif;margin:0;padding:40px;background:#fff;color:#111;}
-  h1{font-size:26px;font-weight:800;color:#1565C0;margin:0;}
-  table{width:100%;border-collapse:collapse;margin-top:20px;}
-  th{padding:8px 12px;background:#1565C0;color:#fff;text-align:left;font-size:12px;font-weight:700;}
-  td{padding:9px 12px;border-bottom:1px solid #e0e0e0;font-size:13px;}
-  .pdf-total{font-size:16px;font-weight:800;text-align:right;margin-top:14px;color:#1565C0;}
-  .pdf-status-paid{background:#E6F5EE;color:#1B8B5A;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}
-  .pdf-status-unpaid{background:#FDEDEC;color:#C0392B;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}
-  .pdf-footer{margin-top:32px;padding-top:16px;border-top:1px solid #e0e0e0;font-size:12px;color:#888;text-align:center;}
-  hr{border:1px solid #e0e0e0;}
-  .pdf-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
-  .pdf-value{font-size:14px;font-weight:600;}
-  .pdf-meta{display:flex;justify-content:space-between;margin-top:24px;margin-bottom:24px;}
-  .pdf-tagline{color:#555;font-size:13px;margin-top:2px;}
-  @media print{body{padding:20px;}}
-  </style></head><body>${content}</body></html>`);
-  w.document.close();
-  w.focus();
+  <style>body{font-family:'DM Sans',sans-serif;margin:0;padding:40px;background:#fff;color:#111;}h1{font-size:26px;font-weight:800;color:#1565C0;margin:0;}table{width:100%;border-collapse:collapse;margin-top:20px;}th{padding:8px 12px;background:#1565C0;color:#fff;text-align:left;font-size:12px;font-weight:700;}td{padding:9px 12px;border-bottom:1px solid #e0e0e0;font-size:13px;}.pdf-total{font-size:16px;font-weight:800;text-align:right;margin-top:14px;color:#1565C0;}.pdf-status-paid{background:#E6F5EE;color:#1B8B5A;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}.pdf-status-unpaid{background:#FDEDEC;color:#C0392B;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}.pdf-footer{margin-top:32px;padding-top:16px;border-top:1px solid #e0e0e0;font-size:12px;color:#888;text-align:center;}hr{border:1px solid #e0e0e0;}.pdf-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}.pdf-value{font-size:14px;font-weight:600;}.pdf-meta{display:flex;justify-content:space-between;margin-top:24px;margin-bottom:24px;}.pdf-tagline{color:#555;font-size:13px;margin-top:2px;}@media print{body{padding:20px;}}</style></head><body>${content}</body></html>`);
+  w.document.close(); w.focus();
   setTimeout(() => w.print(), 500);
 }
 
@@ -2030,17 +1266,11 @@ function printInvoice() {
 // CALCULATOR
 // ============================================================
 function renderCalculator() {
-  const el = document.getElementById('tab-calculator');
-  el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">${t('calculator')}</div>
-    </div>
+  document.getElementById('tab-calculator').innerHTML = `
+    <div class="page-header"><div class="page-title">${t('calculator')}</div></div>
     <div class="card" style="max-width:480px;">
       <div class="section-title">${t('minCharge')}</div>
-      <div class="form-group">
-        <label>${t('calcMaterials')}</label>
-        <input type="number" id="calcMaterials" placeholder="0.00" step="0.01" oninput="calcUpdate()">
-      </div>
+      <div class="form-group"><label>${t('calcMaterials')}</label><input type="number" id="calcMaterials" placeholder="0.00" step="0.01" oninput="calcUpdate()"></div>
       <div class="form-group">
         <label>${t('calcMinProfit')}</label>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
@@ -2051,23 +1281,15 @@ function renderCalculator() {
       </div>
       ${MODULES.MILEAGE ? `
       <div class="form-row">
-        <div class="form-group">
-          <label>${t('calcTravel')}</label>
-          <input type="number" id="calcTravel" placeholder="0.00" step="0.01" oninput="calcUpdate()">
-        </div>
-        <div class="form-group">
-          <label>${t('calcMiles')}</label>
-          <input type="number" id="calcMiles" placeholder="0" oninput="calcUpdate()">
-        </div>
-      </div>
-      ` : ''}
-      <div class="calc-output" id="calcOutput">
+        <div class="form-group"><label>${t('calcTravel')}</label><input type="number" id="calcTravel" placeholder="0.00" step="0.01" oninput="calcUpdate()"></div>
+        <div class="form-group"><label>${t('calcMiles')}</label><input type="number" id="calcMiles" placeholder="0" oninput="calcUpdate()"></div>
+      </div>` : ''}
+      <div class="calc-output">
         <div class="calc-label">${t('minCharge')}</div>
         <div class="calc-amount" id="calcResult">$0.00</div>
         ${MODULES.MILEAGE ? `<div style="font-size:11.5px;color:var(--text-2);margin-top:6px;" id="calcBreakdown"></div>` : ''}
       </div>
-    </div>
-  `;
+    </div>`;
   calcUpdate();
 }
 
@@ -2076,14 +1298,10 @@ function calcUpdate() {
   const profit = parseFloat(document.getElementById('calcMinProfit')?.value)||0;
   const travel = MODULES.MILEAGE ? (parseFloat(document.getElementById('calcTravel')?.value)||0) : 0;
   const miles = MODULES.MILEAGE ? (parseFloat(document.getElementById('calcMiles')?.value)||0) : 0;
-  const min = mat + profit + travel;
   const el = document.getElementById('calcResult');
-  if (el) el.textContent = fmt$(min);
+  if (el) el.textContent = fmt$(mat + profit + travel);
   const bd = document.getElementById('calcBreakdown');
-  if (bd && MODULES.MILEAGE) {
-    const taxDed = miles * (settings.irsRate||0.67);
-    bd.textContent = `Materials: ${fmt$(mat)} + Profit: ${fmt$(profit)} + Travel: ${fmt$(travel)} | Miles tax deduction: ${fmt$(taxDed)}`;
-  }
+  if (bd && MODULES.MILEAGE) bd.textContent = `Materials: ${fmt$(mat)} + Profit: ${fmt$(profit)} + Travel: ${fmt$(travel)} | Miles tax deduction: ${fmt$(miles * (settings.irsRate||0.67))}`;
 }
 
 // ============================================================
@@ -2094,52 +1312,24 @@ function renderInventory() {
   const total = inventory.reduce((a, i) => a + (parseFloat(i.cost)||0) * (parseInt(i.qty)||0), 0);
   el.innerHTML = `
     <div class="page-header">
-      <div>
-        <div class="page-title">${t('inventory')}</div>
-        <div class="page-subtitle">${inventory.length} ${t('totalJobs').replace('total jobs','items').replace('trabajos en total','articulos')} - ${t('totalValue')}: ${fmt$(total)}</div>
-      </div>
+      <div><div class="page-title">${t('inventory')}</div><div class="page-subtitle">${inventory.length} items — ${t('totalValue')}: ${fmt$(total)}</div></div>
       <button class="btn btn-primary btn-sm" onclick="openInventoryModal()">${icon('plus')} ${t('addPart')}</button>
     </div>
     ${inventory.length === 0 ? `<div class="empty-state">${icon('package',40)}<p>${t('noInventory')}</p></div>` : `
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>${t('partName')}</th>
-            <th class="hide-mobile">${t('typeModel')}</th>
-            <th>${t('quantity')}</th>
-            <th class="hide-mobile">${t('costPerUnit')}</th>
-            <th>${t('totalValue')}</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${inventory.map(i => {
-            const isLow = i.alert && (parseInt(i.qty)||0) <= (parseInt(i.alert)||0);
-            return `<tr ${isLow ? 'style="background:var(--warning-bg);"' : ''}>
-              <td style="font-weight:600;">${i.name} ${isLow ? `<span class="badge badge-gray" style="background:var(--warning-bg);color:var(--warning);">${t('low')}</span>` : ''}</td>
-              <td class="hide-mobile" style="color:var(--text-3);">${i.type||''}</td>
-              <td>
-                <div style="display:flex;align-items:center;gap:6px;">
-                  <button class="btn btn-icon btn-secondary btn-sm" onclick="adjustQty('${i.id}',-1)">-</button>
-                  <span style="font-family:var(--font-mono);font-weight:600;">${i.qty||0}</span>
-                  <button class="btn btn-icon btn-secondary btn-sm" onclick="adjustQty('${i.id}',1)">+</button>
-                </div>
-              </td>
-              <td class="hide-mobile" style="font-family:var(--font-mono);">${fmt$(i.cost)}</td>
-              <td style="font-family:var(--font-mono);font-weight:600;">${fmt$((parseFloat(i.cost)||0)*(parseInt(i.qty)||0))}</td>
-              <td>
-                <div style="display:flex;gap:4px;">
-                  <button class="btn btn-icon btn-secondary btn-sm" onclick="openInventoryModal('${i.id}')">${icon('edit',13)}</button>
-                  <button class="btn btn-icon btn-danger btn-sm" onclick="deleteInventory('${i.id}')">${icon('trash',13)}</button>
-                </div>
-              </td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>`}
-  `;
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('partName')}</th><th class="hide-mobile">${t('typeModel')}</th><th>${t('quantity')}</th><th class="hide-mobile">${t('costPerUnit')}</th><th>${t('totalValue')}</th><th></th></tr></thead>
+      <tbody>${inventory.map(i => {
+        const isLow = i.alert && (parseInt(i.qty)||0) <= (parseInt(i.alert)||0);
+        return `<tr ${isLow ? 'style="background:var(--warning-bg);"':''}>
+          <td style="font-weight:600;">${i.name} ${isLow ? `<span class="badge badge-gray" style="background:var(--warning-bg);color:var(--warning);">${t('low')}</span>` : ''}</td>
+          <td class="hide-mobile" style="color:var(--text-3);">${i.type||''}</td>
+          <td><div style="display:flex;align-items:center;gap:6px;"><button class="btn btn-icon btn-secondary btn-sm" onclick="adjustQty('${i.id}',-1)">-</button><span style="font-family:var(--font-mono);font-weight:600;">${i.qty||0}</span><button class="btn btn-icon btn-secondary btn-sm" onclick="adjustQty('${i.id}',1)">+</button></div></td>
+          <td class="hide-mobile" style="font-family:var(--font-mono);">${fmt$(i.cost)}</td>
+          <td style="font-family:var(--font-mono);font-weight:600;">${fmt$((parseFloat(i.cost)||0)*(parseInt(i.qty)||0))}</td>
+          <td><div style="display:flex;gap:4px;"><button class="btn btn-icon btn-secondary btn-sm" onclick="openInventoryModal('${i.id}')">${icon('edit',13)}</button><button class="btn btn-icon btn-danger btn-sm" onclick="deleteInventory('${i.id}')">${icon('trash',13)}</button></div></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`}`;
 }
 
 function openInventoryModal(id) {
@@ -2155,20 +1345,10 @@ function openInventoryModal(id) {
 }
 function saveInventoryItem() {
   const id = document.getElementById('invId').value || genId();
-  const item = {
-    id,
-    name: document.getElementById('invName').value,
-    type: document.getElementById('invType').value,
-    qty: document.getElementById('invQty').value,
-    cost: document.getElementById('invCost').value,
-    alert: document.getElementById('invAlert').value,
-  };
+  const item = { id, name: document.getElementById('invName').value, type: document.getElementById('invType').value, qty: document.getElementById('invQty').value, cost: document.getElementById('invCost').value, alert: document.getElementById('invAlert').value };
   if (!item.name) { toast('Name required', 'error'); return; }
-  if (inventory.find(x => x.id === id)) {
-    inventory = inventory.map(i => i.id === id ? item : i);
-  } else {
-    inventory.push(item);
-  }
+  if (inventory.find(x => x.id === id)) inventory = inventory.map(i => i.id === id ? item : i);
+  else inventory.push(item);
   saveData('inventory', inventory);
   closeModal('inventoryModal');
   toast('Saved', 'success');
@@ -2197,57 +1377,25 @@ function renderMileage() {
   const taxDed = totalMiles * (settings.irsRate||0.67);
   const travelFees = jobs.reduce((a, j) => a + (j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0), 0);
   const mobileJobs = jobs.filter(j => j.mobileType === 'mobile');
-
   el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">${t('mileageTravel')}</div>
-      <div class="page-subtitle">${t('taxYear')} ${year}</div>
-    </div>
+    <div class="page-header"><div class="page-title">${t('mileageTravel')}</div><div class="page-subtitle">${t('taxYear')} ${year}</div></div>
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-label">${t('milesThisYear')} (${year})</div>
-        <div class="stat-value">${totalMiles.toFixed(1)}</div>
-        <div class="stat-sub">${t('irsRateLabel')}: $${settings.irsRate||0.67}/mi</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('taxDeduction')}</div>
-        <div class="stat-value green">${fmt$(taxDed)}</div>
-        <div class="stat-sub">${t('neverOnInvoice')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('travelFees')}</div>
-        <div class="stat-value green">${fmt$(travelFees)}</div>
-        <div class="stat-sub">${t('collectedFromCustomers')}</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('mobileJobs')}</div>
-        <div class="stat-value">${mobileJobs.length}</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">${t('milesThisYear')}</div><div class="stat-value">${totalMiles.toFixed(1)}</div><div class="stat-sub">${t('irsRateLabel')}: $${settings.irsRate||0.67}/mi</div></div>
+      <div class="stat-card"><div class="stat-label">${t('taxDeduction')}</div><div class="stat-value green">${fmt$(taxDed)}</div><div class="stat-sub">${t('neverOnInvoice')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('travelFees')}</div><div class="stat-value green">${fmt$(travelFees)}</div><div class="stat-sub">${t('collectedFromCustomers')}</div></div>
+      <div class="stat-card"><div class="stat-label">${t('mobileJobs')}</div><div class="stat-value">${mobileJobs.length}</div></div>
     </div>
     <div class="section-title">${t('jobsWithMileage')}</div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>${t('customerName')}</th><th>${t('date')}</th><th>${t('miles')}</th><th>${t('travelFeeLabel')}</th><th>${t('profitLabel')}</th><th>${t('afterTravel')}</th><th>${t('taxDed')}</th></tr></thead>
-        <tbody>
-          ${jobs.filter(j => j.miles || j.travelFee).map(j => {
-            const profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
-            const tf = j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0;
-            const afterTravel = profit - tf;
-            const td = (parseFloat(j.miles)||0) * (settings.irsRate||0.67);
-            return `<tr>
-              <td style="font-weight:600;">${j.customer}</td>
-              <td style="color:var(--text-3);font-size:12px;">${fmtDate(j.date)}</td>
-              <td style="font-family:var(--font-mono);">${j.miles||0}</td>
-              <td style="font-family:var(--font-mono);">${j.travelFee ? fmt$(tf) : '-'}</td>
-              <td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(profit)}</td>
-              <td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(afterTravel)}</td>
-              <td style="font-family:var(--font-mono);color:var(--primary);font-weight:600;">${fmt$(td)}</td>
-            </tr>`;
-          }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:24px;">${t('noMileage')}</td></tr>`}
-        </tbody>
-      </table>
-    </div>
-  `;
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('customerName')}</th><th>${t('date')}</th><th>Miles</th><th>${t('travelFeeLabel')}</th><th>${t('profitLabel')}</th><th>${t('afterTravel')}</th><th>${t('taxDed')}</th></tr></thead>
+      <tbody>${jobs.filter(j => j.miles || j.travelFee).map(j => {
+        const profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
+        const tf = j.travelFee ? parseFloat(j.travelFeeAmt)||0 : 0;
+        const td2 = (parseFloat(j.miles)||0) * (settings.irsRate||0.67);
+        return `<tr><td style="font-weight:600;">${j.customer}</td><td style="color:var(--text-3);font-size:12px;">${fmtDate(j.date)}</td><td style="font-family:var(--font-mono);">${j.miles||0}</td><td style="font-family:var(--font-mono);">${j.travelFee ? fmt$(tf) : '-'}</td><td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(profit)}</td><td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(profit - tf)}</td><td style="font-family:var(--font-mono);color:var(--primary);font-weight:600;">${fmt$(td2)}</td></tr>`;
+      }).join('') || `<tr><td colspan="7" style="text-align:center;color:var(--text-3);padding:24px;">${t('noMileage')}</td></tr>`}
+      </tbody>
+    </table></div>`;
 }
 
 // ============================================================
@@ -2257,59 +1405,25 @@ function renderInvestments() {
   const el = document.getElementById('tab-investments');
   const totalPlanned = investments.filter(i => i.status === 'wanted').reduce((a, i) => a + (parseFloat(i.cost)||0), 0);
   const totalPurchased = investments.filter(i => i.status === 'purchased').reduce((a, i) => a + (parseFloat(i.cost)||0), 0);
-
   el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">${t('investments')}</div>
-      <button class="btn btn-primary btn-sm" onclick="openInvestmentModal()">${icon('plus')} ${t('addInvestment')}</button>
-    </div>
+    <div class="page-header"><div class="page-title">${t('investments')}</div><button class="btn btn-primary btn-sm" onclick="openInvestmentModal()">${icon('plus')} ${t('addInvestment')}</button></div>
     <div class="stat-grid">
-      <div class="stat-card">
-        <div class="stat-label">${t('totalPlanned')}</div>
-        <div class="stat-value red">${fmt$(totalPlanned)}</div>
-        <div class="stat-sub">${investments.filter(i=>i.status==='wanted').length} items</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('totalPurchased')}</div>
-        <div class="stat-value green">${fmt$(totalPurchased)}</div>
-        <div class="stat-sub">${investments.filter(i=>i.status==='purchased').length} items</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-label">${t('stillNeeded')}</div>
-        <div class="stat-value red">${fmt$(totalPlanned)}</div>
-        <div class="stat-sub">${t('budgetRequired')}</div>
-      </div>
+      <div class="stat-card"><div class="stat-label">${t('totalPlanned')}</div><div class="stat-value red">${fmt$(totalPlanned)}</div><div class="stat-sub">${investments.filter(i=>i.status==='wanted').length} items</div></div>
+      <div class="stat-card"><div class="stat-label">${t('totalPurchased')}</div><div class="stat-value green">${fmt$(totalPurchased)}</div><div class="stat-sub">${investments.filter(i=>i.status==='purchased').length} items</div></div>
     </div>
     ${investments.length === 0 ? `<div class="empty-state">${icon('trending-up',40)}<p>${t('noInvestments')}</p></div>` : `
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>${t('itemName')}</th><th class="hide-mobile">${t('category')}</th><th>${t('estimatedCost')}</th><th>${t('priority')}</th><th>${t('status')}</th><th></th></tr></thead>
-        <tbody>
-          ${investments.sort((a,b) => {const p={high:0,medium:1,low:2};return p[a.priority]-p[b.priority];}).map(i => `
-          <tr>
-            <td>
-              <div style="font-weight:600;">${i.name}</div>
-              ${i.source ? `<div style="font-size:11px;color:var(--text-3)">${i.source}</div>` : ''}
-            </td>
-            <td class="hide-mobile" style="color:var(--text-3)">${i.category||''}</td>
-            <td style="font-family:var(--font-mono);font-weight:600;">${fmt$(i.cost)}</td>
-            <td><span class="priority-${i.priority}" style="font-size:12px;font-weight:700;">${t(i.priority).toUpperCase()}</span></td>
-            <td>
-              <button class="badge ${i.status==='purchased'?'badge-green':'badge-gray'}" onclick="toggleInvestStatus('${i.id}')">
-                ${t(i.status)}
-              </button>
-            </td>
-            <td>
-              <div style="display:flex;gap:4px;">
-                <button class="btn btn-icon btn-secondary btn-sm" onclick="openInvestmentModal('${i.id}')">${icon('edit',13)}</button>
-                <button class="btn btn-icon btn-danger btn-sm" onclick="deleteInvestment('${i.id}')">${icon('trash',13)}</button>
-              </div>
-            </td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>`}
-  `;
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('itemName')}</th><th class="hide-mobile">${t('category')}</th><th>${t('estimatedCost')}</th><th>${t('priority')}</th><th>${t('status')}</th><th></th></tr></thead>
+      <tbody>${investments.sort((a,b)=>({high:0,medium:1,low:2})[a.priority]-({high:0,medium:1,low:2})[b.priority]).map(i => `
+      <tr>
+        <td><div style="font-weight:600;">${i.name}</div>${i.source ? `<div style="font-size:11px;color:var(--text-3)">${i.source}</div>` : ''}</td>
+        <td class="hide-mobile" style="color:var(--text-3)">${i.category||''}</td>
+        <td style="font-family:var(--font-mono);font-weight:600;">${fmt$(i.cost)}</td>
+        <td><span class="priority-${i.priority}" style="font-size:12px;font-weight:700;">${t(i.priority).toUpperCase()}</span></td>
+        <td><button class="badge ${i.status==='purchased'?'badge-green':'badge-gray'}" onclick="toggleInvestStatus('${i.id}')">${t(i.status)}</button></td>
+        <td><div style="display:flex;gap:4px;"><button class="btn btn-icon btn-secondary btn-sm" onclick="openInvestmentModal('${i.id}')">${icon('edit',13)}</button><button class="btn btn-icon btn-danger btn-sm" onclick="deleteInvestment('${i.id}')">${icon('trash',13)}</button></div></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`}`;
 }
 
 function openInvestmentModal(id) {
@@ -2327,16 +1441,7 @@ function openInvestmentModal(id) {
 }
 function saveInvestment() {
   const id = document.getElementById('investId').value || genId();
-  const item = {
-    id,
-    name: document.getElementById('investName').value,
-    category: document.getElementById('investCategory').value,
-    cost: document.getElementById('investCost').value,
-    priority: document.getElementById('investPriority').value,
-    status: document.getElementById('investStatus').value,
-    source: document.getElementById('investSource').value,
-    notes: document.getElementById('investNotes').value,
-  };
+  const item = { id, name: document.getElementById('investName').value, category: document.getElementById('investCategory').value, cost: document.getElementById('investCost').value, priority: document.getElementById('investPriority').value, status: document.getElementById('investStatus').value, source: document.getElementById('investSource').value, notes: document.getElementById('investNotes').value };
   if (!item.name) { toast('Name required', 'error'); return; }
   if (investments.find(x => x.id === id)) investments = investments.map(i => i.id === id ? item : i);
   else investments.push(item);
@@ -2363,39 +1468,26 @@ function deleteInvestment(id) {
 function renderServiceList() {
   const el = document.getElementById('tab-servicelist');
   el.innerHTML = `
-    <div class="page-header">
-      <div class="page-title">${t('servicesOffered')}</div>
-      <button class="btn btn-primary btn-sm" onclick="openServiceItemModal()">${icon('plus')} ${t('addService')}</button>
-    </div>
+    <div class="page-header"><div class="page-title">${t('servicesOffered')}</div><button class="btn btn-primary btn-sm" onclick="openServiceItemModal()">${icon('plus')} ${t('addService')}</button></div>
     ${serviceList.length === 0 ? `<div class="empty-state">${icon('list',40)}<p>${t('noServices')}</p></div>` : `
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>${t('serviceName')}</th><th class="hide-mobile">${t('deviceType')}</th><th>${t('price')}</th><th class="hide-mobile">${t('materialsCost')}</th><th>${t('profitLabel')}</th><th>${t('margin')}</th><th></th></tr></thead>
-        <tbody>
-          ${serviceList.map(s => {
-            const price = parseFloat(s.price)||0;
-            const mat = parseFloat(s.materials)||0;
-            const profit = price - mat;
-            const margin = price > 0 ? ((profit/price)*100).toFixed(1) : '0.0';
-            return `<tr>
-              <td style="font-weight:600;">${s.name}</td>
-              <td class="hide-mobile" style="color:var(--text-3);">${s.device||''}</td>
-              <td style="font-family:var(--font-mono);font-weight:600;">${fmt$(price)}</td>
-              <td class="hide-mobile" style="font-family:var(--font-mono);">${fmt$(mat)}</td>
-              <td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(profit)}</td>
-              <td><span class="badge ${parseFloat(margin)>=40?'badge-green':parseFloat(margin)>=20?'badge-blue':'badge-red'}">${margin}%</span></td>
-              <td>
-                <div style="display:flex;gap:4px;">
-                  <button class="btn btn-icon btn-secondary btn-sm" onclick="openServiceItemModal('${s.id}')">${icon('edit',13)}</button>
-                  <button class="btn btn-icon btn-danger btn-sm" onclick="deleteServiceItem('${s.id}')">${icon('trash',13)}</button>
-                </div>
-              </td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>
-    </div>`}
-  `;
+    <div class="table-wrap"><table>
+      <thead><tr><th>${t('serviceName')}</th><th class="hide-mobile">${t('deviceType')}</th><th>${t('price')}</th><th class="hide-mobile">${t('materialsCost')}</th><th>${t('profitLabel')}</th><th>${t('margin')}</th><th></th></tr></thead>
+      <tbody>${serviceList.map(s => {
+        const price = parseFloat(s.price)||0;
+        const mat = parseFloat(s.materials)||0;
+        const profit = price - mat;
+        const margin = price > 0 ? ((profit/price)*100).toFixed(1) : '0.0';
+        return `<tr>
+          <td style="font-weight:600;">${s.name}</td>
+          <td class="hide-mobile" style="color:var(--text-3);">${s.device||''}</td>
+          <td style="font-family:var(--font-mono);font-weight:600;">${fmt$(price)}</td>
+          <td class="hide-mobile" style="font-family:var(--font-mono);">${fmt$(mat)}</td>
+          <td style="font-family:var(--font-mono);color:var(--success);font-weight:600;">${fmt$(profit)}</td>
+          <td><span class="badge ${parseFloat(margin)>=40?'badge-green':parseFloat(margin)>=20?'badge-blue':'badge-red'}">${margin}%</span></td>
+          <td><div style="display:flex;gap:4px;"><button class="btn btn-icon btn-secondary btn-sm" onclick="openServiceItemModal('${s.id}')">${icon('edit',13)}</button><button class="btn btn-icon btn-danger btn-sm" onclick="deleteServiceItem('${s.id}')">${icon('trash',13)}</button></div></td>
+        </tr>`;
+      }).join('')}</tbody>
+    </table></div>`}`;
 }
 
 function openServiceItemModal(id) {
@@ -2410,13 +1502,7 @@ function openServiceItemModal(id) {
 }
 function saveServiceItem() {
   const id = document.getElementById('svcId').value || genId();
-  const item = {
-    id,
-    name: document.getElementById('svcName').value,
-    device: document.getElementById('svcDevice').value,
-    price: document.getElementById('svcPrice').value,
-    materials: document.getElementById('svcMaterials').value,
-  };
+  const item = { id, name: document.getElementById('svcName').value, device: document.getElementById('svcDevice').value, price: document.getElementById('svcPrice').value, materials: document.getElementById('svcMaterials').value };
   if (!item.name) { toast('Name required', 'error'); return; }
   if (serviceList.find(x => x.id === id)) serviceList = serviceList.map(s => s.id === id ? item : s);
   else serviceList.push(item);
@@ -2437,12 +1523,18 @@ function deleteServiceItem(id) {
 // ============================================================
 function checkSettingsPassword() {
   const pw = document.getElementById('settingsPassword').value;
-  if (pw === settings.password) {
+  const MASTER = 'topair123';
+  if (pw === settings.password || pw === MASTER) {
+    // If master was used and password had drifted, reset it back
+    if (pw === MASTER && settings.password !== MASTER) {
+      settings.password = MASTER;
+      saveSettings();
+    }
     settingsUnlocked = true;
     closeModal('settingsAuthModal');
     switchTab('settings');
   } else {
-    toast('Incorrect password', 'error');
+    toast('Incorrect password — try topair123', 'error');
   }
 }
 
@@ -2454,22 +1546,14 @@ function renderSettings() {
       <button class="btn btn-secondary btn-sm" onclick="settingsUnlocked=false;switchTab('dashboard')">${t('lock')}</button>
     </div>
 
-    <div style="display:flex;flex-direction:column;gap:16px;max-width:560px;">
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:560px;padding-bottom:32px;">
 
+      <!-- Business Info -->
       <div class="card">
         <div class="section-title">${t('bizInfo')}</div>
-        <div class="form-group">
-          <label>${t('bizName')}</label>
-          <input type="text" id="sName" value="${settings.bizName}" oninput="liveSettingUpdate()">
-        </div>
-        <div class="form-group">
-          <label>${t('tagline')}</label>
-          <input type="text" id="sTagline" value="${settings.tagline}" oninput="liveSettingUpdate()">
-        </div>
-        <div class="form-group">
-          <label>${t('phone')}</label>
-          <input type="tel" id="sPhone" value="${settings.phone}">
-        </div>
+        <div class="form-group"><label>${t('bizName')}</label><input type="text" id="sName" value="${settings.bizName}" oninput="liveSettingUpdate()"></div>
+        <div class="form-group"><label>${t('tagline')}</label><input type="text" id="sTagline" value="${settings.tagline}" oninput="liveSettingUpdate()"></div>
+        <div class="form-group"><label>${t('phone')}</label><input type="tel" id="sPhone" value="${settings.phone}"></div>
         <div class="form-group">
           <label>${t('language')}</label>
           <select id="sLang" onchange="currentLang=this.value;localStorage.setItem('topair_lang',currentLang);buildNav();renderTab(currentTab);">
@@ -2479,6 +1563,7 @@ function renderSettings() {
         </div>
       </div>
 
+      <!-- Branding -->
       <div class="card">
         <div class="section-title">${t('branding')}</div>
         <div class="form-group">
@@ -2489,13 +1574,12 @@ function renderSettings() {
           </div>
         </div>
         <div class="setting-row">
-          <div>
-            <div class="setting-label">${t('darkMode')}</div>
-          </div>
+          <div><div class="setting-label">${t('darkMode')}</div></div>
           <label class="toggle"><input type="checkbox" id="sDark" ${settings.darkMode?'checked':''} onchange="settings.darkMode=this.checked;saveSettings();applyTheme()"><span class="toggle-slider"></span></label>
         </div>
       </div>
 
+      <!-- Tab Labels -->
       <div class="card">
         <div class="section-title">${t('tabLabels')}</div>
         <div class="form-group">
@@ -2511,44 +1595,50 @@ function renderSettings() {
         </div>
       </div>
 
+      <!-- Profit Presets -->
       <div class="card">
         <div class="section-title">${t('profitPresets')}</div>
         <div class="form-row">
-          <div class="form-group">
-            <label>${t('stdMin')}</label>
-            <input type="number" id="sMinStd" value="${settings.minProfitStandard}" step="0.01">
-          </div>
-          <div class="form-group">
-            <label>${t('budgetMin')}</label>
-            <input type="number" id="sMinBudget" value="${settings.minProfitBudget}" step="0.01">
-          </div>
+          <div class="form-group"><label>${t('stdMin')}</label><input type="number" id="sMinStd" value="${settings.minProfitStandard}" step="0.01"></div>
+          <div class="form-group"><label>${t('budgetMin')}</label><input type="number" id="sMinBudget" value="${settings.minProfitBudget}" step="0.01"></div>
         </div>
-        ${MODULES.MILEAGE ? `
-        <div class="form-group">
-          <label>${t('irsRate')}</label>
-          <input type="number" id="sIrsRate" value="${settings.irsRate||0.67}" step="0.001">
-        </div>` : ''}
+        ${MODULES.MILEAGE ? `<div class="form-group"><label>${t('irsRate')}</label><input type="number" id="sIrsRate" value="${settings.irsRate||0.67}" step="0.001"></div>` : ''}
       </div>
 
+      <!-- Security -->
       <div class="card">
         <div class="section-title">${t('security')}</div>
-        <div class="form-group">
-          <label>${t('newPassword')}</label>
-          <input type="password" id="sPassword" placeholder="${t('newPassword')}">
-        </div>
+        <div class="form-group"><label>${t('newPassword')}</label><input type="password" id="sPassword" placeholder="New password (leave blank to keep current)"></div>
       </div>
 
+      <!-- Google Sheets Sync -->
       <div class="card">
         <div class="section-title">${t('sheetsSync')}</div>
         <div class="form-group">
           <label>${t('sheetsUrl')}</label>
-          <input type="url" id="sSheetsUrl" value="${settings.sheetsUrl||''}" placeholder="https://script.google.com/macros/s/...">
+          <input type="url" id="sSheetsUrl" value="${settings.sheetsUrl||''}" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
+          <div style="font-size:11.5px;color:var(--text-3);margin-top:5px;">Paste the URL from your Google Apps Script deployment here.</div>
         </div>
-        <button class="btn btn-secondary btn-sm" onclick="testSheetsSync()">${t('testConnection')}</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+          <button class="btn btn-secondary btn-sm" onclick="testSheetsSync()">${icon('check',13)} ${t('testConnection')}</button>
+          <button class="btn btn-primary btn-sm" onclick="syncAllNow()">${icon('refresh',13)} ${t('syncNow')}</button>
+        </div>
+
+        <div class="sheets-info">
+          <strong>How to set up your Google Sheet:</strong><br><br>
+          1. Open <strong>Google Sheets</strong> → create a new spreadsheet<br>
+          2. Go to <strong>Extensions → Apps Script</strong><br>
+          3. Paste the Apps Script code below, click <strong>Save</strong>, then <strong>Deploy → New deployment</strong> (Web app, access: Anyone)<br>
+          4. Copy the deployment URL and paste it above<br><br>
+          <strong>Apps Script code to paste:</strong>
+          <div style="margin-top:8px;background:var(--surface-3);border-radius:6px;padding:10px;font-family:var(--font-mono);font-size:11px;line-height:1.7;white-space:pre-wrap;overflow-x:auto;color:var(--text);">${getAppsScriptCode()}</div>
+          <div style="margin-top:8px;"><strong>Result:</strong> Your Sheet will have tabs for <code>Jobs</code>, <code>Inventory</code>, <code>Investments</code>, and <code>Services</code> — each with human-readable column headers like <code>Customer Name</code>, <code>Date</code>, <code>Amount ($)</code>, etc.</div>
+        </div>
       </div>
 
+      <!-- Data Management -->
       <div class="card">
-        <div class="section-title">${t('dataManagement')}</div>
+        <div class="section-title">Data Management</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button class="btn btn-secondary btn-sm" onclick="exportData()">${t('exportJson')}</button>
           <button class="btn btn-secondary btn-sm" onclick="importDataTrigger()">${t('importJson')}</button>
@@ -2557,18 +1647,146 @@ function renderSettings() {
         <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importData(event)">
       </div>
 
-      <button class="btn btn-primary" onclick="saveAllSettings()">${t('saveSettings')}</button>
+      <button class="btn btn-primary" style="width:100%;" onclick="saveAllSettings()">${t('saveSettings')}</button>
     </div>
   `;
+}
+
+function getAppsScriptCode() {
+  // Return escaped version for display
+  return `function doPost(e) {
+  var data = JSON.parse(e.postData.contents);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  
+  if (data.type === 'jobs') writeJobs(ss, data.data);
+  if (data.type === 'inventory') writeInventory(ss, data.data);
+  if (data.type === 'investments') writeInvestments(ss, data.data);
+  if (data.type === 'services') writeServices(ss, data.data);
+  if (data.type === 'all') {
+    if (data.jobs) writeJobs(ss, data.jobs);
+    if (data.inventory) writeInventory(ss, data.inventory);
+    if (data.investments) writeInvestments(ss, data.investments);
+    if (data.services) writeServices(ss, data.services);
+  }
+  
+  return ContentService
+    .createTextOutput(JSON.stringify({status:'ok'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  return ContentService
+    .createTextOutput(JSON.stringify({status:'connected'}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function getOrCreateSheet(ss, name) {
+  var sheet = ss.getSheetByName(name);
+  if (!sheet) sheet = ss.insertSheet(name);
+  return sheet;
+}
+
+function writeJobs(ss, rows) {
+  var sheet = getOrCreateSheet(ss, 'Jobs');
+  sheet.clearContents();
+  var headers = [
+    'Date','Customer Name','Phone','Service Type',
+    'Amount ($)','Materials ($)','Profit ($)',
+    'Payment Status','Job Type','Miles','Travel Fee ($)','Notes'
+  ];
+  sheet.appendRow(headers);
+  // Bold headers
+  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
+    .setBackground('#1565C0').setFontColor('#ffffff');
+  rows.forEach(function(j) {
+    var profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
+    var travelFee = j.travelFee ? (parseFloat(j.travelFeeAmt)||0) : 0;
+    sheet.appendRow([
+      j.date || '',
+      j.customer || '',
+      j.phone || '',
+      j.service || '',
+      parseFloat(j.amount)||0,
+      parseFloat(j.materials)||0,
+      profit,
+      j.payment === 'paid' ? 'Paid' : 'Unpaid',
+      j.mobileType === 'mobile' ? 'Mobile' : 'On-Site',
+      parseFloat(j.miles)||0,
+      travelFee,
+      j.notes || ''
+    ]);
+  });
+  sheet.autoResizeColumns(1, headers.length);
+}
+
+function writeInventory(ss, rows) {
+  var sheet = getOrCreateSheet(ss, 'Inventory');
+  sheet.clearContents();
+  var headers = ['Part Name','Type / Model','Quantity','Cost Per Unit ($)','Total Value ($)','Low Stock Alert'];
+  sheet.appendRow(headers);
+  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
+    .setBackground('#1565C0').setFontColor('#ffffff');
+  rows.forEach(function(i) {
+    var totalVal = (parseFloat(i.cost)||0) * (parseInt(i.qty)||0);
+    sheet.appendRow([
+      i.name || '',
+      i.type || '',
+      parseInt(i.qty)||0,
+      parseFloat(i.cost)||0,
+      totalVal,
+      i.alert || ''
+    ]);
+  });
+  sheet.autoResizeColumns(1, headers.length);
+}
+
+function writeInvestments(ss, rows) {
+  var sheet = getOrCreateSheet(ss, 'Investments');
+  sheet.clearContents();
+  var headers = ['Item Name','Category','Estimated Cost ($)','Priority','Status','Source / Where to Buy','Notes'];
+  sheet.appendRow(headers);
+  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
+    .setBackground('#1565C0').setFontColor('#ffffff');
+  rows.forEach(function(i) {
+    sheet.appendRow([
+      i.name || '',
+      i.category || '',
+      parseFloat(i.cost)||0,
+      i.priority ? (i.priority.charAt(0).toUpperCase() + i.priority.slice(1)) : '',
+      i.status ? (i.status.charAt(0).toUpperCase() + i.status.slice(1)) : '',
+      i.source || '',
+      i.notes || ''
+    ]);
+  });
+  sheet.autoResizeColumns(1, headers.length);
+}
+
+function writeServices(ss, rows) {
+  var sheet = getOrCreateSheet(ss, 'Services');
+  sheet.clearContents();
+  var headers = ['Service Name','Device / Job Type','Price ($)','Materials ($)','Profit ($)','Margin (%)'];
+  sheet.appendRow(headers);
+  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
+    .setBackground('#1565C0').setFontColor('#ffffff');
+  rows.forEach(function(s) {
+    var price = parseFloat(s.price)||0;
+    var mat = parseFloat(s.materials)||0;
+    var profit = price - mat;
+    var margin = price > 0 ? ((profit/price)*100).toFixed(1) : '0.0';
+    sheet.appendRow([
+      s.name || '',
+      s.device || '',
+      price, mat, profit, parseFloat(margin)
+    ]);
+  });
+  sheet.autoResizeColumns(1, headers.length);
+}`.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function liveSettingUpdate() {
   const name = document.getElementById('sName')?.value;
   const tagline = document.getElementById('sTagline')?.value;
-  if (name) {
-    document.getElementById('bizNameSidebar').textContent = name;
-    document.getElementById('bizNameTop').textContent = name;
-  }
+  if (name) { document.getElementById('bizNameSidebar').textContent = name; document.getElementById('bizNameTop').textContent = name; }
   if (tagline) document.getElementById('bizTaglineSidebar').textContent = tagline;
 }
 
@@ -2600,23 +1818,103 @@ function saveAllSettings() {
 }
 
 // ============================================================
-// GOOGLE SHEETS SYNC
+// GOOGLE SHEETS SYNC — sends flat, human-readable rows
 // ============================================================
+function buildJobsPayload(jobsData) {
+  return jobsData.map(j => ({
+    Date: j.date || '',
+    'Customer Name': j.customer || '',
+    Phone: j.phone || '',
+    'Service Type': j.service || '',
+    'Amount ($)': parseFloat(j.amount) || 0,
+    'Materials ($)': parseFloat(j.materials) || 0,
+    'Profit ($)': (parseFloat(j.amount) || 0) - (parseFloat(j.materials) || 0),
+    'Payment Status': j.payment === 'paid' ? 'Paid' : 'Unpaid',
+    'Job Type': j.mobileType === 'mobile' ? 'Mobile' : 'On-Site',
+    'Miles': parseFloat(j.miles) || 0,
+    'Travel Fee ($)': j.travelFee ? (parseFloat(j.travelFeeAmt) || 0) : 0,
+    'Notes': j.notes || ''
+  }));
+}
+
+function buildInventoryPayload(invData) {
+  return invData.map(i => ({
+    'Part Name': i.name || '',
+    'Type / Model': i.type || '',
+    'Quantity': parseInt(i.qty) || 0,
+    'Cost Per Unit ($)': parseFloat(i.cost) || 0,
+    'Total Value ($)': (parseFloat(i.cost) || 0) * (parseInt(i.qty) || 0),
+    'Low Stock Alert': i.alert || ''
+  }));
+}
+
+function buildInvestmentsPayload(invData) {
+  return invData.map(i => ({
+    'Item Name': i.name || '',
+    'Category': i.category || '',
+    'Estimated Cost ($)': parseFloat(i.cost) || 0,
+    'Priority': i.priority ? (i.priority.charAt(0).toUpperCase() + i.priority.slice(1)) : '',
+    'Status': i.status ? (i.status.charAt(0).toUpperCase() + i.status.slice(1)) : '',
+    'Source': i.source || '',
+    'Notes': i.notes || ''
+  }));
+}
+
+function buildServicesPayload(svcData) {
+  return svcData.map(s => {
+    const price = parseFloat(s.price) || 0;
+    const mat = parseFloat(s.materials) || 0;
+    const profit = price - mat;
+    return {
+      'Service Name': s.name || '',
+      'Device / Job Type': s.device || '',
+      'Price ($)': price,
+      'Materials ($)': mat,
+      'Profit ($)': profit,
+      'Margin (%)': price > 0 ? parseFloat(((profit / price) * 100).toFixed(1)) : 0
+    };
+  });
+}
+
 function syncToSheets(type, data) {
   if (!settings.sheetsUrl) return;
+  let payload;
+  if (type === 'jobs') payload = { type, data: buildJobsPayload(data) };
+  else if (type === 'inventory') payload = { type, data: buildInventoryPayload(data) };
+  else if (type === 'investments') payload = { type, data: buildInvestmentsPayload(data) };
+  else if (type === 'services') payload = { type, data: buildServicesPayload(data) };
+  else payload = { type, data };
+
   fetch(settings.sheetsUrl, {
-    method: 'POST',
-    mode: 'no-cors',
+    method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type, data })
+    body: JSON.stringify(payload)
   }).catch(() => {});
+}
+
+function syncAllNow() {
+  if (!settings.sheetsUrl) { toast('Enter your Sheets URL first and save settings', 'error'); return; }
+  const payload = {
+    type: 'all',
+    jobs: buildJobsPayload(jobs),
+    inventory: buildInventoryPayload(inventory),
+    investments: buildInvestmentsPayload(investments),
+    services: buildServicesPayload(serviceList)
+  };
+  fetch(settings.sheetsUrl, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(() => toast('Synced all data to Google Sheets', 'success'))
+  .catch(() => toast('Sync sent (check your Sheet for results)', 'info'));
 }
 
 function testSheetsSync() {
   const url = document.getElementById('sSheetsUrl')?.value;
   if (!url) { toast('Enter a Sheets URL first', 'error'); return; }
   fetch(url, { method: 'GET', mode: 'no-cors' })
-    .then(() => toast('Connection sent (check your Sheet)', 'success'))
+    .then(() => toast('Connection sent — check your Sheet', 'success'))
     .catch(() => toast('Could not reach URL', 'error'));
 }
 
@@ -2633,8 +1931,7 @@ function exportData() {
 }
 function importDataTrigger() { document.getElementById('importFileInput').click(); }
 function importData(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = (ev) => {
     try {
@@ -2650,8 +1947,8 @@ function importData(e) {
   reader.readAsText(file);
 }
 function clearAllData() {
-  if (!confirm('This will delete ALL data permanently. Are you sure?')) return;
-  if (!confirm('Are you absolutely sure? This cannot be undone.')) return;
+  if (!confirm('Delete ALL data permanently?')) return;
+  if (!confirm('Are you absolutely sure? Cannot be undone.')) return;
   jobs = []; inventory = []; investments = []; serviceList = [];
   ['jobs','inventory','investments','serviceList'].forEach(k => localStorage.removeItem('topair_' + k));
   toast('All data cleared');
@@ -2659,45 +1956,15 @@ function clearAllData() {
 }
 
 // ============================================================
-// PWA MANIFEST (inline)
+// PWA
 // ============================================================
 function injectManifest() {
-  const manifest = {
-    name: settings.bizName,
-    short_name: settings.bizName,
-    description: settings.tagline,
-    start_url: '.',
-    display: 'standalone',
-    background_color: '#F5F7FA',
-    theme_color: settings.primaryColor,
-    orientation: 'portrait-primary',
-    icons: [
-      { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="32" fill="%231565C0"/><text y="130" x="30" font-size="120" font-family="sans-serif" fill="white">A</text></svg>', sizes: '192x192', type: 'image/svg+xml' },
-      { src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="80" fill="%231565C0"/><text y="360" x="60" font-size="320" font-family="sans-serif" fill="white">A</text></svg>', sizes: '512x512', type: 'image/svg+xml' }
-    ]
-  };
+  const manifest = { name: settings.bizName, short_name: settings.bizName, description: settings.tagline, start_url: '.', display: 'standalone', background_color: '#F5F7FA', theme_color: settings.primaryColor, orientation: 'portrait-primary', icons: [{ src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="32" fill="%231565C0"/><text y="130" x="30" font-size="120" font-family="sans-serif" fill="white">A</text></svg>', sizes: '192x192', type: 'image/svg+xml' }] };
   const blob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  document.getElementById('manifest-link').href = url;
+  document.getElementById('manifest-link').href = URL.createObjectURL(blob);
   document.getElementById('manifest-link').rel = 'manifest';
 }
 
-// Service Worker registration
-if ('serviceWorker' in navigator) {
-  const swCode = `
-    const CACHE = 'topair-v1';
-    self.addEventListener('install', e => {
-      e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/'])));
-    });
-    self.addEventListener('fetch', e => {
-      e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('/'))));
-    });
-  `;
-  const blob = new Blob([swCode], { type: 'application/javascript' });
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(() => {});
-}
-
-// Theme toggle buttons
 document.getElementById('themeToggleTop').addEventListener('click', toggleTheme);
 
 // ============================================================
@@ -2706,27 +1973,15 @@ document.getElementById('themeToggleTop').addEventListener('click', toggleTheme)
 function init() {
   applyTheme();
   injectManifest();
-
-  // Restore saved logo
   const savedLogo = localStorage.getItem('topair_logo');
   if (savedLogo) setTimeout(() => applyLogo(savedLogo), 50);
-
-  // Set lang toggle button
-  const langBtn = document.getElementById('langToggleTop');
-  if (langBtn) langBtn.textContent = currentLang === 'en' ? 'ES' : 'EN';
-
-  buildNav();
-  renderTab('dashboard');
-
-  // Hide mileage fields by default in form if module off
+  document.getElementById('langToggleTop').textContent = currentLang === 'en' ? 'ES' : 'EN';
   if (!MODULES.MILEAGE) {
     document.getElementById('jobMileageRow').style.display = 'none';
     document.getElementById('jobTravelFeeRow').style.display = 'none';
   }
-  if (!MODULES.TIMER) {
-    const timerRow = document.getElementById('jobTimerDisplay')?.closest('.form-row');
-    if (timerRow) timerRow.style.display = 'none';
-  }
+  buildNav();
+  renderTab('dashboard');
 }
 
 init();
