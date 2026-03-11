@@ -128,33 +128,67 @@ a { text-decoration: none; color: inherit; }
 
 /* ── ONSTRA BRAND BADGE ───────────────────────────── */
 .onstra-badge {
-  margin: 8px 8px 4px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
+  margin: 6px 10px 4px;
+  padding: 9px 12px 8px;
+  border-radius: 6px;
+  background: #0a0a0a;
+  border: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   flex-shrink: 0;
+  cursor: default;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
 }
-.onstra-badge-label {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-3);
+[data-theme="dark"] .onstra-badge {
+  background: #ffffff;
+}
+.onstra-badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 100%);
+  pointer-events: none;
+}
+.onstra-asterisk {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+[data-theme="dark"] .onstra-asterisk {
+  color: #000000;
+}
+.onstra-wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.onstra-eyebrow {
+  font-size: 7px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.45);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
+  letter-spacing: 1.2px;
+  line-height: 1;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-.onstra-badge img {
-  height: 16px;
-  width: auto;
-  object-fit: contain;
-  filter: var(--onstra-filter, none);
-  opacity: 0.75;
+[data-theme="dark"] .onstra-eyebrow {
+  color: rgba(0,0,0,0.45);
 }
-[data-theme="dark"] .onstra-badge img {
-  filter: invert(1);
+.onstra-name {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+}
+[data-theme="dark"] .onstra-name {
+  color: #000000;
 }
 
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
@@ -1101,9 +1135,21 @@ function buildNav() {
   // Onstra badge
   const onstraBadge = document.createElement('div');
   onstraBadge.className = 'onstra-badge';
+  onstraBadge.title = 'Built by Onstra';
   onstraBadge.innerHTML = `
-    <span class="onstra-badge-label">Powered by</span>
-    <img src="${ONSTRA_LOGO_URI}" alt="Onstra" title="Built by Onstra">
+    <svg class="onstra-asterisk" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(50,52)">
+        <rect x="-6.5" y="-42" width="13" height="44" fill="currentColor" transform="rotate(0)"/>
+        <rect x="-6.5" y="-42" width="13" height="44" fill="currentColor" transform="rotate(55)"/>
+        <rect x="-6.5" y="-42" width="13" height="44" fill="currentColor" transform="rotate(-55)"/>
+        <rect x="-6.5" y="-42" width="13" height="44" fill="currentColor" transform="rotate(130)"/>
+        <rect x="-6.5" y="-42" width="13" height="44" fill="currentColor" transform="rotate(230)"/>
+      </g>
+    </svg>
+    <div class="onstra-wordmark">
+      <span class="onstra-eyebrow">Built by</span>
+      <span class="onstra-name">Onstra</span>
+    </div>
   `;
   bottom.appendChild(onstraBadge);
 
