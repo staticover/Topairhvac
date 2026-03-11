@@ -126,6 +126,37 @@ a { text-decoration: none; color: inherit; }
 .nav-item svg { width: 17px; height: 17px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .sidebar-bottom { padding: 10px 8px 14px; border-top: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
 
+/* ── ONSTRA BRAND BADGE ───────────────────────────── */
+.onstra-badge {
+  margin: 8px 8px 4px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.onstra-badge-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+}
+.onstra-badge img {
+  height: 16px;
+  width: auto;
+  object-fit: contain;
+  filter: var(--onstra-filter, none);
+  opacity: 0.75;
+}
+[data-theme="dark"] .onstra-badge img {
+  filter: invert(1);
+}
+
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
 .topbar {
@@ -179,9 +210,7 @@ a { text-decoration: none; color: inherit; }
 .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; gap: 12px; flex-wrap: wrap; }
 .page-title { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; color: var(--text); }
 .page-subtitle { font-size: 12.5px; color: var(--text-3); margin-top: 2px; }
-@media (max-width: 768px) {
-  .page-title { font-size: 20px; }
-}
+@media (max-width: 768px) { .page-title { font-size: 20px; } }
 
 /* ── BUTTONS ──────────────────────────────────────── */
 .btn {
@@ -230,7 +259,7 @@ a { text-decoration: none; color: inherit; }
 @media (max-width: 480px) { .form-row, .form-row-3 { grid-template-columns: 1fr; } }
 label { display: block; font-size: 12px; font-weight: 700; color: var(--text-2); margin-bottom: 5px; letter-spacing: 0.1px; }
 input[type="text"], input[type="number"], input[type="tel"], input[type="date"],
-input[type="password"], input[type="url"], select, textarea {
+input[type="password"], input[type="url"], input[type="email"], select, textarea {
   width: 100%; background: var(--surface-2); border: 1.5px solid var(--border);
   border-radius: var(--radius-sm); padding: 12px 13px; font-size: 16px; color: var(--text);
   outline: none; transition: border-color var(--transition), background var(--transition);
@@ -297,11 +326,10 @@ tbody tr:hover { background: var(--surface-2); }
   td, th { padding: 9px 10px; }
 }
 
-/* ── JOB CARDS (mobile list view) ────────────────── */
+/* ── JOB CARDS ────────────────────────────────────── */
 .job-card {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   padding: 14px 14px 12px; margin-bottom: 10px; transition: background var(--transition);
-  active: background: var(--surface-2);
 }
 .job-card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
 .job-card-name { font-size: 15px; font-weight: 700; color: var(--text); }
@@ -353,20 +381,35 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 .toast.info { border-left: 3px solid var(--primary); }
 @keyframes toastIn { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform: none; } }
 
-/* ── PDF / INVOICE ────────────────────────────────── */
-.pdf-preview { background: #fff; color: #111; padding: 32px; font-family: var(--font); max-width: 600px; margin: 0 auto; border-radius: var(--radius); border: 1px solid var(--border); }
-.pdf-preview h1 { font-size: 24px; font-weight: 800; color: #1565C0; }
-.pdf-preview .pdf-tagline { color: #555; font-size: 13px; margin-top: 2px; }
-.pdf-preview .pdf-meta { display: flex; justify-content: space-between; margin: 20px 0; flex-wrap: wrap; gap: 12px; }
-.pdf-preview .pdf-label { font-size: 11px; color: #888; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-.pdf-preview .pdf-value { font-size: 14px; font-weight: 600; color: #111; }
-.pdf-preview table { width: 100%; border-collapse: collapse; margin-top: 16px; }
-.pdf-preview th { padding: 8px 12px; background: #1565C0; color: #fff; text-align: left; font-size: 12px; font-weight: 700; }
-.pdf-preview td { padding: 9px 12px; border-bottom: 1px solid #e0e0e0; font-size: 13px; }
-.pdf-preview .pdf-total { font-size: 16px; font-weight: 800; text-align: right; margin-top: 12px; color: #1565C0; }
-.pdf-preview .pdf-status-paid { background: #E6F5EE; color: #1B8B5A; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 6px; }
-.pdf-preview .pdf-status-unpaid { background: #FDEDEC; color: #C0392B; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; margin-top: 6px; }
-.pdf-preview .pdf-footer { margin-top: 28px; padding-top: 14px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #888; text-align: center; }
+/* ── INVOICE (PRINT) ──────────────────────────────── */
+.pdf-preview {
+  background: #fff; color: #111; padding: 32px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  max-width: 680px; margin: 0 auto;
+  border-radius: var(--radius); border: 1px solid var(--border);
+}
+
+/* Top Air invoice layout */
+.inv-top-bar { height: 6px; background: #4a9fd4; margin-bottom: 28px; border-radius: 2px; }
+.inv-header-row { display: flex; gap: 24px; margin-bottom: 24px; align-items: flex-start; }
+.inv-logo-block { flex-shrink: 0; width: 140px; }
+.inv-logo-block img { width: 140px; height: 120px; object-fit: contain; }
+.inv-logo-block .inv-logo-placeholder { width: 140px; height: 100px; background: #4a9fd4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
+.inv-meta-block { flex: 1; min-width: 0; font-size: 13px; line-height: 1.7; color: #333; }
+.inv-meta-block .inv-meta-label { font-weight: 700; color: #4a9fd4; text-decoration: underline; margin-top: 10px; }
+.inv-meta-block .inv-meta-label:first-child { margin-top: 0; }
+.inv-left-block { min-width: 160px; }
+.inv-big-invoice { font-size: 32px; font-weight: 900; color: #1565C0; text-decoration: underline; letter-spacing: -0.5px; margin-bottom: 16px; }
+.inv-contact-label { font-weight: 700; color: #4a9fd4; text-decoration: underline; margin-bottom: 2px; font-size: 13px; }
+.inv-contact-value { font-size: 13px; color: #333; margin-bottom: 10px; line-height: 1.4; }
+.inv-table { width: 100%; border-collapse: collapse; margin-bottom: 0; }
+.inv-table th { background: #4a9fd4; color: #fff; padding: 9px 14px; text-align: left; font-size: 13px; font-weight: 700; }
+.inv-table td { padding: 9px 14px; border-bottom: 1px dashed #ccc; font-size: 13px; color: #333; vertical-align: top; }
+.inv-table tr:last-child td { border-bottom: none; }
+.inv-table .inv-total-row td { border-top: 2px solid #333; border-bottom: none; font-weight: 700; color: #111; padding-top: 10px; }
+.inv-notes-section { margin-top: 20px; font-size: 13px; color: #333; line-height: 1.8; }
+.inv-bottom-bar { height: 6px; background: #4a9fd4; margin-top: 28px; border-radius: 2px; }
+.inv-page-num { text-align: right; font-size: 11px; color: #aaa; margin-top: 6px; }
 
 /* ── CALCULATOR ───────────────────────────────────── */
 .calc-output { background: var(--accent); border: 1px solid var(--primary); border-radius: var(--radius); padding: 18px; margin-top: 14px; text-align: center; }
@@ -445,6 +488,13 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 
 .fade-in { animation: fadeIn 0.2s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+/* ── PRINT STYLES ─────────────────────────────────── */
+@media print {
+  body * { visibility: hidden; }
+  #printableInvoice, #printableInvoice * { visibility: visible; }
+  #printableInvoice { position: fixed; left: 0; top: 0; width: 100%; padding: 32px; }
+}
 </style>
 </head>
 <body>
@@ -462,7 +512,9 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
       <div class="biz-tagline" id="bizTaglineSidebar">Heating &amp; Cooling Experts</div>
     </div>
     <nav class="sidebar-nav" id="sidebarNav"></nav>
-    <div class="sidebar-bottom" id="sidebarBottom"></div>
+    <div class="sidebar-bottom" id="sidebarBottom">
+      <!-- Onstra badge injected here by buildNav() -->
+    </div>
   </aside>
 
   <div class="main">
@@ -507,6 +559,8 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
   </div>
   <button class="close-btn" onclick="document.getElementById('installBanner').style.display='none';localStorage.setItem('installDismissed','1')">✕</button>
 </div>
+
+<!-- Job Modal -->
 <div class="modal-backdrop" id="jobModal">
   <div class="modal">
     <div class="modal-header">
@@ -521,6 +575,11 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
         <div class="form-group"><label>Customer Name</label><input type="text" id="jobCustomer" placeholder="Full name"></div>
         <div class="form-group"><label>Phone Number</label><input type="tel" id="jobPhone" placeholder="(555) 555-5555"></div>
       </div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input type="email" id="jobEmail" placeholder="email@example.com"></div>
+        <div class="form-group"><label>Attention (Company / Org)</label><input type="text" id="jobAttention" placeholder="e.g. Verna Properties LLC"></div>
+      </div>
+      <div class="form-group"><label>Job Address</label><input type="text" id="jobAddress" placeholder="e.g. 107 Dr Martin Luther King Jr. Dr, Ahoskie, NC 27910"></div>
       <div class="form-row">
         <div class="form-group"><label>Service Type</label><input type="text" id="jobService" placeholder="e.g. AC Repair"></div>
         <div class="form-group"><label>Date</label><input type="date" id="jobDate"></div>
@@ -550,7 +609,7 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 
 <!-- Invoice Modal -->
 <div class="modal-backdrop" id="invoiceModal">
-  <div class="modal" style="max-width:640px;">
+  <div class="modal" style="max-width:720px;">
     <div class="modal-header">
       <span class="modal-title">Invoice Preview</span>
       <button class="modal-close btn btn-icon" onclick="closeModal('invoiceModal')">
@@ -759,6 +818,11 @@ input:checked + .toggle-slider::before { transform: translateX(20px); }
 
 <script>
 // ============================================================
+// ONSTRA LOGO (embedded)
+// ============================================================
+const ONSTRA_LOGO_URI = 'data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACP/9k=';
+
+// ============================================================
 // CONFIG
 // ============================================================
 const MODULES = {
@@ -795,7 +859,8 @@ function loadSettings() {
   if (d) return JSON.parse(d);
   return {
     bizName: 'Top Air HVAC', tagline: 'Heating & Cooling Experts',
-    phone: '(555) 555-5555', primaryColor: '#1565C0', password: 'topair123',
+    phone: '(555) 555-5555', email: '', techName: 'Orlin J Hernandez',
+    primaryColor: '#1565C0', password: 'topair123',
     jobsLabel: 'Service Calls', irsRate: 0.67, travelFeeDefault: 0,
     minProfitStandard: 80, minProfitBudget: 40, sheetsUrl: '', darkMode: false
   };
@@ -1032,6 +1097,16 @@ function buildNav() {
   });
 
   bottom.innerHTML = '';
+
+  // Onstra badge
+  const onstraBadge = document.createElement('div');
+  onstraBadge.className = 'onstra-badge';
+  onstraBadge.innerHTML = `
+    <span class="onstra-badge-label">Powered by</span>
+    <img src="${ONSTRA_LOGO_URI}" alt="Onstra" title="Built by Onstra">
+  `;
+  bottom.appendChild(onstraBadge);
+
   const themeBtn = document.createElement('div');
   themeBtn.className = 'nav-item';
   themeBtn.innerHTML = `${icon('sun')} <span>${t('toggleTheme')}</span>`;
@@ -1094,6 +1169,12 @@ function toast(msg, type = 'info') {
 
 function fmt$(n) { return '$' + (parseFloat(n)||0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function fmtDate(d) { if (!d) return ''; const p = d.split('-'); return `${p[1]}/${p[2]}/${p[0]}`; }
+function fmtDateLong(d) {
+  if (!d) return '';
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const p = d.split('-');
+  return `${months[parseInt(p[1])-1]} ${parseInt(p[2])}, ${p[0]}`;
+}
 function todayStr() { return new Date().toISOString().slice(0, 10); }
 function monthKey(d) { return d ? d.slice(0, 7) : ''; }
 
@@ -1254,6 +1335,9 @@ function openJobModal(id, prefillDate) {
   document.getElementById('jobId').value = j ? j.id : '';
   document.getElementById('jobCustomer').value = j ? j.customer||'' : '';
   document.getElementById('jobPhone').value = j ? j.phone||'' : '';
+  document.getElementById('jobEmail').value = j ? j.email||'' : '';
+  document.getElementById('jobAttention').value = j ? j.attention||'' : '';
+  document.getElementById('jobAddress').value = j ? j.address||'' : '';
   document.getElementById('jobService').value = j ? j.service||'' : '';
   document.getElementById('jobDate').value = j ? j.date||todayStr() : (prefillDate || todayStr());
   document.getElementById('jobAmount').value = j ? j.amount||'' : '';
@@ -1262,7 +1346,7 @@ function openJobModal(id, prefillDate) {
   document.getElementById('jobNotes').value = j ? j.notes||'' : '';
   document.getElementById('jobLaborHours').value = j ? j.laborHours||'' : '';
   document.getElementById('jobLaborCost').value = j ? j.laborCost||'' : '';
-  document.getElementById('jobTech').value = j ? j.tech||'' : '';
+  document.getElementById('jobTech').value = j ? j.tech||'' : (settings.techName||'');
   if (MODULES.MILEAGE) {
     document.getElementById('jobMileageRow').style.display = '';
     document.getElementById('jobMobileType').value = j ? j.mobileType||'onsite' : 'onsite';
@@ -1279,6 +1363,9 @@ function saveJob() {
     id,
     customer: document.getElementById('jobCustomer').value,
     phone: document.getElementById('jobPhone').value,
+    email: document.getElementById('jobEmail').value,
+    attention: document.getElementById('jobAttention').value,
+    address: document.getElementById('jobAddress').value,
     service: document.getElementById('jobService').value,
     date: document.getElementById('jobDate').value,
     amount: document.getElementById('jobAmount').value,
@@ -1397,32 +1484,114 @@ function renderPhotos() {
 }
 
 // ============================================================
-// INVOICE
+// INVOICE — Matches Top Air's existing format
 // ============================================================
 function openInvoice(jobId) {
   const j = jobs.find(x => x.id === jobId); if (!j) return;
   const invoiceNum = 'INV-' + j.id.slice(0,6).toUpperCase();
+  const savedLogo = localStorage.getItem('topair_logo');
+  const logoHtml = savedLogo
+    ? `<img src="${savedLogo}" style="width:140px;height:120px;object-fit:contain;">`
+    : `<div class="inv-logo-placeholder">${settings.bizName.substring(0,2).toUpperCase()}</div>`;
+
+  const total = parseFloat(j.amount||0) + (j.travelFee ? parseFloat(j.travelFeeAmt||0) : 0);
+  const techName = j.tech || settings.techName || settings.bizName;
+  const contactEmail = j.email || settings.email || '';
+  const contactPhone = j.phone || settings.phone || '';
+
+  // Build line items — service + optional travel fee
+  const lineItems = [];
+  if (j.service) lineItems.push({ desc: j.service, amt: parseFloat(j.amount||0) });
+  if (j.travelFee && j.travelFeeAmt) lineItems.push({ desc: 'Travel Fee', amt: parseFloat(j.travelFeeAmt||0) });
+
+  // Extra blank rows to pad the table like their format (at least 6 rows total)
+  while (lineItems.length < 6) lineItems.push({ desc: '', amt: null });
+
+  const lineRowsHtml = lineItems.map((li, i) => {
+    const isLast = i === lineItems.length - 1;
+    return `<tr>
+      <td style="min-height:28px;padding:7px 14px;border-bottom:${isLast?'none':'1px dashed #ccc'};font-size:13px;color:#333;">${li.desc}</td>
+      <td style="padding:7px 14px;border-bottom:${isLast?'none':'1px dashed #ccc'};text-align:right;font-size:13px;color:#333;"></td>
+      <td style="padding:7px 14px;border-bottom:${isLast?'none':'1px dashed #ccc'};text-align:right;font-size:13px;color:#333;white-space:nowrap;">${li.amt !== null ? fmt$(li.amt) : ''}</td>
+    </tr>`;
+  }).join('');
+
   document.getElementById('invoiceBody').innerHTML = `
-    <div class="pdf-preview" id="printableInvoice">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
-        <div><h1>${settings.bizName}</h1><div class="pdf-tagline">${settings.tagline}</div><div style="margin-top:6px;font-size:13px;color:#555;">${settings.phone}</div></div>
-        <div style="text-align:right;"><div style="font-size:22px;font-weight:800;color:#333;">INVOICE</div><div style="font-size:13px;color:#888;">${invoiceNum}</div><div style="font-size:13px;color:#888;">Date: ${fmtDate(j.date)}</div></div>
+    <div class="pdf-preview" id="printableInvoice" style="background:#fff;color:#111;padding:28px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;max-width:680px;margin:0 auto;">
+      
+      <!-- Top color bar -->
+      <div class="inv-top-bar"></div>
+
+      <!-- Header: logo left, meta right -->
+      <div style="display:flex;gap:24px;margin-bottom:24px;align-items:flex-start;">
+        <div style="flex-shrink:0;width:140px;">
+          ${logoHtml}
+        </div>
+        <div style="flex:1;font-size:13px;line-height:1.75;color:#333;">
+          ${j.attention ? `<div style="font-weight:700;color:#4a9fd4;text-decoration:underline;">Attention:</div>
+          <div>${j.attention}</div>` : ''}
+          ${j.address ? `<div style="font-weight:700;color:#4a9fd4;text-decoration:underline;margin-top:10px;">Job Address:</div>
+          <div>${j.address.replace(/,\s*/g, '<br>')}</div>` : ''}
+          <div style="font-weight:700;color:#4a9fd4;text-decoration:underline;margin-top:10px;">Date:</div>
+          <div>${fmtDateLong(j.date)}</div>
+        </div>
       </div>
-      <hr style="border:1px solid #e0e0e0;margin:20px 0;">
-      <div class="pdf-meta">
-        <div><div class="pdf-label">Bill To</div><div class="pdf-value">${j.customer}</div><div style="font-size:13px;color:#555;">${j.phone||''}</div></div>
-        <div style="text-align:right;"><div class="pdf-label">Payment Status</div><span class="pdf-status-${j.payment}">${j.payment === 'paid' ? 'PAID' : 'UNPAID'}</span></div>
+
+      <!-- Main body: left (invoice label + contact) + right (table) -->
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        
+        <!-- Left column -->
+        <div style="min-width:160px;flex-shrink:0;">
+          <div style="font-size:32px;font-weight:900;color:#1565C0;text-decoration:underline;letter-spacing:-0.5px;margin-bottom:20px;">INVOICE</div>
+          <div style="font-size:12px;font-weight:700;color:#333;margin-bottom:2px;">By: ${techName}</div>
+          
+          <div style="margin-top:14px;">
+            <div style="font-weight:700;color:#4a9fd4;text-decoration:underline;font-size:13px;">Phone Number</div>
+            <div style="font-size:13px;color:#333;margin-bottom:12px;">${settings.phone}</div>
+          </div>
+          
+          ${contactEmail ? `<div>
+            <div style="font-weight:700;color:#4a9fd4;text-decoration:underline;font-size:13px;">Email</div>
+            <div style="font-size:13px;color:#333;">${contactEmail}</div>
+          </div>` : `<div>
+            <div style="font-weight:700;color:#4a9fd4;text-decoration:underline;font-size:13px;">Email</div>
+            <div style="font-size:13px;color:#333;">${settings.email || 'orlinhrndzHVAC@gmail.com'}</div>
+          </div>`}
+        </div>
+
+        <!-- Right column: table -->
+        <div style="flex:1;min-width:0;">
+          <table style="width:100%;border-collapse:collapse;">
+            <thead>
+              <tr>
+                <th style="background:#4a9fd4;color:#fff;padding:9px 14px;text-align:left;font-size:13px;font-weight:700;width:60%;">Description</th>
+                <th style="background:#4a9fd4;color:#fff;padding:9px 14px;text-align:right;font-size:13px;font-weight:700;width:20%;"></th>
+                <th style="background:#4a9fd4;color:#fff;padding:9px 14px;text-align:right;font-size:13px;font-weight:700;width:20%;"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${lineRowsHtml}
+              <tr>
+                <td style="padding:9px 14px;border-top:2px solid #333;font-size:13px;color:#333;"></td>
+                <td style="padding:9px 14px;border-top:2px solid #333;text-align:right;font-weight:700;font-size:13px;color:#111;white-space:nowrap;">Total Due</td>
+                <td style="padding:9px 14px;border-top:2px solid #333;text-align:right;font-weight:700;font-size:14px;color:#111;white-space:nowrap;">${fmt$(total)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-      <table>
-        <thead><tr><th>Description</th><th style="text-align:right;">Amount</th></tr></thead>
-        <tbody>
-          <tr><td>${j.service||'Service'}</td><td style="text-align:right;font-weight:600;">${fmt$(j.amount)}</td></tr>
-          ${j.travelFee && j.travelFeeAmt ? `<tr><td>Travel Fee</td><td style="text-align:right;font-weight:600;">${fmt$(j.travelFeeAmt)}</td></tr>` : ''}
-        </tbody>
-      </table>
-      <div class="pdf-total">Total: ${fmt$(parseFloat(j.amount||0) + (j.travelFee ? parseFloat(j.travelFeeAmt||0) : 0))}</div>
-      ${j.notes ? `<div style="margin-top:16px;padding:12px;background:#f5f5f5;border-radius:6px;font-size:13px;color:#555;"><strong>Notes:</strong> ${j.notes}</div>` : ''}
-      <div class="pdf-footer">${settings.bizName} - ${settings.tagline}<br>${settings.phone}<br>Thank you for your business.</div>
+
+      <!-- Notes section -->
+      <div style="margin-top:24px;font-size:13px;color:#333;line-height:1.9;">
+        <div style="font-weight:700;margin-bottom:4px;">Notes:</div>
+        <div>${j.notes || 'Thank you for your business. It is a pleasure to work with you on your project!'}</div>
+        <div style="margin-top:12px;">Sincerely yours,</div>
+        <div style="margin-top:4px;">${techName}</div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="inv-bottom-bar"></div>
+      <div style="text-align:right;font-size:11px;color:#aaa;margin-top:4px;">1</div>
     </div>`;
   openModal('invoiceModal');
 }
@@ -1430,11 +1599,20 @@ function openInvoice(jobId) {
 function printInvoice() {
   const content = document.getElementById('printableInvoice').innerHTML;
   const w = window.open('', '_blank');
-  w.document.write(`<!DOCTYPE html><html><head><title>Invoice</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <style>body{font-family:'DM Sans',sans-serif;margin:0;padding:40px;background:#fff;color:#111;}h1{font-size:26px;font-weight:800;color:#1565C0;margin:0;}table{width:100%;border-collapse:collapse;margin-top:20px;}th{padding:8px 12px;background:#1565C0;color:#fff;text-align:left;font-size:12px;font-weight:700;}td{padding:9px 12px;border-bottom:1px solid #e0e0e0;font-size:13px;}.pdf-total{font-size:16px;font-weight:800;text-align:right;margin-top:14px;color:#1565C0;}.pdf-status-paid{background:#E6F5EE;color:#1B8B5A;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}.pdf-status-unpaid{background:#FDEDEC;color:#C0392B;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;display:inline-block;}.pdf-footer{margin-top:32px;padding-top:16px;border-top:1px solid #e0e0e0;font-size:12px;color:#888;text-align:center;}hr{border:1px solid #e0e0e0;}.pdf-label{font-size:11px;color:#888;font-weight:600;text-transform:uppercase;letter-spacing:.5px;}.pdf-value{font-size:14px;font-weight:600;}.pdf-meta{display:flex;justify-content:space-between;margin-top:24px;margin-bottom:24px;}.pdf-tagline{color:#555;font-size:13px;margin-top:2px;}@media print{body{padding:20px;}}</style></head><body>${content}</body></html>`);
-  w.document.close(); w.focus();
-  setTimeout(() => w.print(), 500);
+  w.document.write(`<!DOCTYPE html><html><head><title>Invoice - ${settings.bizName}</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 40px; background: #fff; color: #111; }
+    .inv-top-bar { height: 6px; background: #4a9fd4; margin-bottom: 28px; border-radius: 2px; }
+    .inv-bottom-bar { height: 6px; background: #4a9fd4; margin-top: 28px; border-radius: 2px; }
+    .inv-logo-placeholder { width: 140px; height: 100px; background: #4a9fd4; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 900; color: #fff; }
+    table { width: 100%; border-collapse: collapse; }
+    @media print { body { padding: 20px; } @page { margin: 12mm; } }
+  </style>
+  </head><body>${content}</body></html>`);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 600);
 }
 
 // ============================================================
@@ -1515,7 +1693,6 @@ function calcUpdate() {
     minCharge = totalCost + flatProfit;
     marginLabel = `flat $${flatProfit.toFixed(0)} profit target`;
   } else {
-    // charge = cost / (1 - margin%) to hit the margin
     const m = marginTarget / 100;
     minCharge = m < 1 ? totalCost / (1 - m) : totalCost * 2;
     marginLabel = `at ${marginTarget}% margin`;
@@ -1769,15 +1946,12 @@ function renderCalendar() {
   const el = document.getElementById('tab-calendar');
   const now = new Date(calViewYear, calViewMonth, 1);
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const today = new Date();
   const todayStr2 = todayStr();
 
-  // Build day grid
   const firstDay = now.getDay();
   const daysInMonth = new Date(calViewYear, calViewMonth + 1, 0).getDate();
   const daysInPrev = new Date(calViewYear, calViewMonth, 0).getDate();
 
-  // Map jobs to dates
   const jobsByDate = {};
   jobs.forEach(j => {
     if (!j.date) return;
@@ -1789,13 +1963,11 @@ function renderCalendar() {
   const dows = ['Su','Mo','Tu','We','Th','Fr','Sa'];
   const dowHeaders = dows.map(d => `<div class="cal-dow">${d}</div>`).join('');
 
-  // Prev month filler
   for (let i = firstDay - 1; i >= 0; i--) {
     const d = daysInPrev - i;
     cells += `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
   }
 
-  // This month days
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${calViewYear}-${String(calViewMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const dayJobs = jobsByDate[dateStr] || [];
@@ -1807,13 +1979,11 @@ function renderCalendar() {
     </div>`;
   }
 
-  // Next month filler
   const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
   for (let d = 1; d <= totalCells - firstDay - daysInMonth; d++) {
     cells += `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
   }
 
-  // Upcoming jobs (next 14 days from today)
   const upcoming = jobs
     .filter(j => j.date && j.date >= todayStr2)
     .sort((a, b) => a.date.localeCompare(b.date))
@@ -1842,8 +2012,6 @@ function renderCalendar() {
           <div><span class="badge ${j.payment==='paid'?'badge-green':'badge-red'}">${j.payment==='paid'?'Paid':'Unpaid'}</span></div>
         </div>`).join('')}
     </div>`;
-
-  // Add chevron icons to SVG_ICONS if needed (already done at init)
 }
 
 function calNav(dir) {
@@ -1856,13 +2024,10 @@ function calNav(dir) {
 function calDayClick(dateStr) {
   const dayJobs = jobs.filter(j => j.date === dateStr);
   if (dayJobs.length === 0) {
-    if (confirm(`No jobs on ${fmtDate(dateStr)}. Create one?`)) {
-      openJobModal(null, dateStr);
-    }
+    if (confirm(`No jobs on ${fmtDate(dateStr)}. Create one?`)) openJobModal(null, dateStr);
   } else if (dayJobs.length === 1) {
     openJobModal(dayJobs[0].id);
   } else {
-    // Show a quick list — for now just open first and let them navigate
     const names = dayJobs.map(j => j.customer).join(', ');
     const choice = prompt(`${dayJobs.length} jobs on ${fmtDate(dateStr)}:\n${names}\n\nEnter number (1-${dayJobs.length}) to open, or cancel:`);
     if (choice) {
@@ -1941,8 +2106,6 @@ function renderFinancing() {
   `;
 }
 
-
-
 function openFinancingModal(elOrId) {
   const id = elOrId && elOrId.dataset ? elOrId.dataset.id : elOrId;
   const f = id ? financing.find(x => x.id === id) : null;
@@ -2020,7 +2183,6 @@ function checkSettingsPassword() {
   const pw = document.getElementById('settingsPassword').value;
   const MASTER = 'topair123';
   if (pw === settings.password || pw === MASTER) {
-    // If master was used and password had drifted, reset it back
     if (pw === MASTER && settings.password !== MASTER) {
       settings.password = MASTER;
       saveSettings();
@@ -2049,6 +2211,8 @@ function renderSettings() {
         <div class="form-group"><label>${t('bizName')}</label><input type="text" id="sName" value="${settings.bizName}" oninput="liveSettingUpdate()"></div>
         <div class="form-group"><label>${t('tagline')}</label><input type="text" id="sTagline" value="${settings.tagline}" oninput="liveSettingUpdate()"></div>
         <div class="form-group"><label>${t('phone')}</label><input type="tel" id="sPhone" value="${settings.phone}"></div>
+        <div class="form-group"><label>Business Email</label><input type="email" id="sEmail" value="${settings.email||''}" placeholder="email@yourbusiness.com"></div>
+        <div class="form-group"><label>Default Tech / By Name (on invoices)</label><input type="text" id="sTechName" value="${settings.techName||''}" placeholder="e.g. Orlin J Hernandez"></div>
         <div class="form-group">
           <label>${t('language')}</label>
           <select id="sLang" onchange="currentLang=this.value;localStorage.setItem('topair_lang',currentLang);buildNav();renderTab(currentTab);">
@@ -2112,22 +2276,10 @@ function renderSettings() {
         <div class="form-group">
           <label>${t('sheetsUrl')}</label>
           <input type="url" id="sSheetsUrl" value="${settings.sheetsUrl||''}" placeholder="https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec">
-          <div style="font-size:11.5px;color:var(--text-3);margin-top:5px;">Paste the URL from your Google Apps Script deployment here.</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
           <button class="btn btn-secondary btn-sm" onclick="testSheetsSync()">${icon('check',13)} ${t('testConnection')}</button>
           <button class="btn btn-primary btn-sm" onclick="syncAllNow()">${icon('refresh',13)} ${t('syncNow')}</button>
-        </div>
-
-        <div class="sheets-info">
-          <strong>How to set up your Google Sheet:</strong><br><br>
-          1. Open <strong>Google Sheets</strong> → create a new spreadsheet<br>
-          2. Go to <strong>Extensions → Apps Script</strong><br>
-          3. Paste the Apps Script code below, click <strong>Save</strong>, then <strong>Deploy → New deployment</strong> (Web app, access: Anyone)<br>
-          4. Copy the deployment URL and paste it above<br><br>
-          <strong>Apps Script code to paste:</strong>
-          <div style="margin-top:8px;background:var(--surface-3);border-radius:6px;padding:10px;font-family:var(--font-mono);font-size:11px;line-height:1.7;white-space:pre-wrap;overflow-x:auto;color:var(--text);">${getAppsScriptCode()}</div>
-          <div style="margin-top:8px;"><strong>Result:</strong> Your Sheet will have tabs for <code>Jobs</code>, <code>Inventory</code>, <code>Investments</code>, and <code>Services</code> — each with human-readable column headers like <code>Customer Name</code>, <code>Date</code>, <code>Amount ($)</code>, etc.</div>
         </div>
       </div>
 
@@ -2145,137 +2297,6 @@ function renderSettings() {
       <button class="btn btn-primary" style="width:100%;" onclick="saveAllSettings()">${t('saveSettings')}</button>
     </div>
   `;
-}
-
-function getAppsScriptCode() {
-  // Return escaped version for display
-  return `function doPost(e) {
-  var data = JSON.parse(e.postData.contents);
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  
-  if (data.type === 'jobs') writeJobs(ss, data.data);
-  if (data.type === 'inventory') writeInventory(ss, data.data);
-  if (data.type === 'investments') writeInvestments(ss, data.data);
-  if (data.type === 'services') writeServices(ss, data.data);
-  if (data.type === 'all') {
-    if (data.jobs) writeJobs(ss, data.jobs);
-    if (data.inventory) writeInventory(ss, data.inventory);
-    if (data.investments) writeInvestments(ss, data.investments);
-    if (data.services) writeServices(ss, data.services);
-  }
-  
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'ok'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({status:'connected'}))
-    .setMimeType(ContentService.MimeType.JSON);
-}
-
-function getOrCreateSheet(ss, name) {
-  var sheet = ss.getSheetByName(name);
-  if (!sheet) sheet = ss.insertSheet(name);
-  return sheet;
-}
-
-function writeJobs(ss, rows) {
-  var sheet = getOrCreateSheet(ss, 'Jobs');
-  sheet.clearContents();
-  var headers = [
-    'Date','Customer Name','Phone','Service Type',
-    'Amount ($)','Materials ($)','Profit ($)',
-    'Payment Status','Job Type','Miles','Travel Fee ($)','Notes'
-  ];
-  sheet.appendRow(headers);
-  // Bold headers
-  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
-    .setBackground('#1565C0').setFontColor('#ffffff');
-  rows.forEach(function(j) {
-    var profit = (parseFloat(j.amount)||0) - (parseFloat(j.materials)||0);
-    var travelFee = j.travelFee ? (parseFloat(j.travelFeeAmt)||0) : 0;
-    sheet.appendRow([
-      j.date || '',
-      j.customer || '',
-      j.phone || '',
-      j.service || '',
-      parseFloat(j.amount)||0,
-      parseFloat(j.materials)||0,
-      profit,
-      j.payment === 'paid' ? 'Paid' : 'Unpaid',
-      j.mobileType === 'mobile' ? 'Mobile' : 'On-Site',
-      parseFloat(j.miles)||0,
-      travelFee,
-      j.notes || ''
-    ]);
-  });
-  sheet.autoResizeColumns(1, headers.length);
-}
-
-function writeInventory(ss, rows) {
-  var sheet = getOrCreateSheet(ss, 'Inventory');
-  sheet.clearContents();
-  var headers = ['Part Name','Type / Model','Quantity','Cost Per Unit ($)','Total Value ($)','Low Stock Alert'];
-  sheet.appendRow(headers);
-  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
-    .setBackground('#1565C0').setFontColor('#ffffff');
-  rows.forEach(function(i) {
-    var totalVal = (parseFloat(i.cost)||0) * (parseInt(i.qty)||0);
-    sheet.appendRow([
-      i.name || '',
-      i.type || '',
-      parseInt(i.qty)||0,
-      parseFloat(i.cost)||0,
-      totalVal,
-      i.alert || ''
-    ]);
-  });
-  sheet.autoResizeColumns(1, headers.length);
-}
-
-function writeInvestments(ss, rows) {
-  var sheet = getOrCreateSheet(ss, 'Investments');
-  sheet.clearContents();
-  var headers = ['Item Name','Category','Estimated Cost ($)','Priority','Status','Source / Where to Buy','Notes'];
-  sheet.appendRow(headers);
-  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
-    .setBackground('#1565C0').setFontColor('#ffffff');
-  rows.forEach(function(i) {
-    sheet.appendRow([
-      i.name || '',
-      i.category || '',
-      parseFloat(i.cost)||0,
-      i.priority ? (i.priority.charAt(0).toUpperCase() + i.priority.slice(1)) : '',
-      i.status ? (i.status.charAt(0).toUpperCase() + i.status.slice(1)) : '',
-      i.source || '',
-      i.notes || ''
-    ]);
-  });
-  sheet.autoResizeColumns(1, headers.length);
-}
-
-function writeServices(ss, rows) {
-  var sheet = getOrCreateSheet(ss, 'Services');
-  sheet.clearContents();
-  var headers = ['Service Name','Device / Job Type','Price ($)','Materials ($)','Profit ($)','Margin (%)'];
-  sheet.appendRow(headers);
-  sheet.getRange(1,1,1,headers.length).setFontWeight('bold')
-    .setBackground('#1565C0').setFontColor('#ffffff');
-  rows.forEach(function(s) {
-    var price = parseFloat(s.price)||0;
-    var mat = parseFloat(s.materials)||0;
-    var profit = price - mat;
-    var margin = price > 0 ? ((profit/price)*100).toFixed(1) : '0.0';
-    sheet.appendRow([
-      s.name || '',
-      s.device || '',
-      price, mat, profit, parseFloat(margin)
-    ]);
-  });
-  sheet.autoResizeColumns(1, headers.length);
-}`.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function liveSettingUpdate() {
@@ -2300,6 +2321,8 @@ function saveAllSettings() {
   settings.bizName = document.getElementById('sName')?.value || settings.bizName;
   settings.tagline = document.getElementById('sTagline')?.value || settings.tagline;
   settings.phone = document.getElementById('sPhone')?.value || settings.phone;
+  settings.email = document.getElementById('sEmail')?.value || '';
+  settings.techName = document.getElementById('sTechName')?.value || '';
   settings.primaryColor = document.getElementById('sColorHex')?.value || settings.primaryColor;
   settings.minProfitStandard = parseFloat(document.getElementById('sMinStd')?.value) || settings.minProfitStandard;
   settings.minProfitBudget = parseFloat(document.getElementById('sMinBudget')?.value) || settings.minProfitBudget;
@@ -2313,7 +2336,7 @@ function saveAllSettings() {
 }
 
 // ============================================================
-// GOOGLE SHEETS SYNC — sends flat, human-readable rows
+// GOOGLE SHEETS SYNC
 // ============================================================
 function buildJobsPayload(jobsData) {
   return jobsData.map(j => ({
@@ -2379,7 +2402,6 @@ function syncToSheets(type, data) {
   else if (type === 'investments') payload = { type, data: buildInvestmentsPayload(data) };
   else if (type === 'services') payload = { type, data: buildServicesPayload(data) };
   else payload = { type, data };
-
   fetch(settings.sheetsUrl, {
     method: 'POST', mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
@@ -2476,12 +2498,10 @@ function init() {
     document.getElementById('jobMileageRow').style.display = 'none';
   }
   buildNav();
-  // Set initial tab active
   const dashEl = document.getElementById('tab-dashboard');
   if (dashEl) dashEl.classList.add('active');
   renderTab('dashboard');
 
-  // iOS install banner — show if Safari, not standalone, not dismissed
   const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   const isStandalone = window.navigator.standalone === true;
   const isDismissed = localStorage.getItem('installDismissed');
